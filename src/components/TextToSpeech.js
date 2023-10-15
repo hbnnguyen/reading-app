@@ -9,10 +9,9 @@ const TextToSpeech = ({ text }) => {
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
-  const [highlightSection, setHighlightSection] = React.useState({
-    from: 0,
-    to: 0
-  });
+  const [highlightSection, setHighlightSection] = React.useState({ from: 0, to: 0 });
+  const [textToRead, setTextToRead] = useState(text)
+
   let speaking;
 
   useEffect(() => {
@@ -27,6 +26,8 @@ const TextToSpeech = ({ text }) => {
       synth.cancel();
     };
   }, [text]);
+
+  g
 
   const handlePlay = () => {
     const synth = window.speechSynthesis;
@@ -69,6 +70,7 @@ const TextToSpeech = ({ text }) => {
 
     speaking = synth.speaking;
     setIsSpeaking(speaking);
+    setHighlightSection({ from: 0, to: 0 });
   };
 
   if (utterance) {

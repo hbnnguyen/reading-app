@@ -1,56 +1,47 @@
 import "./Passage.css";
+import HighlightedText from "./HighlightedText";
+import Selectable from "./Selectable";
+import { useState } from "react";
 
-const Selectable = ({ word }) => {
-  const handleClick = (e) => {
-    if (e.type === 'click') { // left click
-      // when left click on a selectable word, the utterance should stop and begin again on said word.
-    } else if (e.type === 'contextmenu') { // right click
-      e.preventDefault()
-      // when right click on a selectable, make a call to dictionary api to get the definition
-      console.log('Right click');
+const splitText = (text) => {
+  const words = []
+  for (let i = 0; i < text.length - 1; i++) {
+    const wordData = {startIndex: null, word: ""}
+
+    if (text[i] !== " ") {
+      wordData.startIndex = i
+      while (text[i] !== " " && i < text.length) {
+        wordData.word += text[i]
+        i++
+      }
     }
+    words.push(wordData)
   }
-
-  return (
-    <span
-      className="selectable"
-      onClick={handleClick}
-      onContextMenu={handleClick}
-    >
-        {word}
-    </span>
-  )
+  return words
 }
 
-const splitText = (text, from, to) => [
-  text.slice(0, from),
-  text.slice(from, to),
-  text.slice(to)
-];
+const Passage = ({ text, isPaused, isSpeaking, highlightSection}) => {
+  const [startPoint, setStartPoint] = useState(0)
 
-const HighlightedText = ({ text, from, to }) => {
-  const [start, highlight, finish] = splitText(text, from, to);
-  return (
-    <p>
-      {start}
-      <span style={{ backgroundColor: "yellow" }}>{highlight}</span>
-      {finish}
-    </p>
-  );
-};
+  const getStartPoint = (startIndex) => {
+    setStartPoint(startIndex)
+    text = text.slice(startPoint, text.length - 1)
+  }
 
-const Passage = ({ text, isPaused, isSpeaking, highlightSection }) => {
   const buildParagraph = (text) => {
-    const words = text.split(" ");
+    const words = splitText(text);
     const paragraph = [];
 
-    words.forEach((word, index) => {
-      paragraph.push(<Selectable key={index + word} word={word} />);
-      paragraph.push(<span key={index + "space"}> </span>);
+    words.forEach((word) => {
+        
+      paragraph.push(<Selectable key={word.startIndex + word.word} wordData={word} getStartPoint={getStartPoint}/>);
+      paragraph.push(" ");
     });
-
+ 
     return paragraph;
   };
+
+  
 
   const canSelect = () => {
     if (isPaused && isSpeaking) {
