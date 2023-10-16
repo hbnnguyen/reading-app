@@ -1,3 +1,7 @@
 .selectable:hover {
     background-color: lightblue;
 }
+
+.highlighted {
+    background-color: yellow;
+}

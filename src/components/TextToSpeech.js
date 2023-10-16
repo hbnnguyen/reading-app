@@ -3,20 +3,22 @@ import Passage from "./Passage";
 
 const TextToSpeech = ({ text }) => {
   const [isPaused, setIsPaused] = useState(false);
+  // const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isStopped, setIsStopped] = useState(false);
   const [utterance, setUtterance] = useState(null);
-  const [isSpeaking, setIsSpeaking] = useState(false);
   const [voice, setVoice] = useState(null);
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
-  const [highlightSection, setHighlightSection] = React.useState({ from: 0, to: 0 });
-  const [textToRead, setTextToRead] = useState(text)
+  const [textToRead, setTextToRead] = useState(text);
 
-  let speaking;
+  const setTextStartPoint = (startIndex) => {
+    setTextToRead(text.slice(startIndex, text.length - 1));
+  };
 
   useEffect(() => {
     const synth = window.speechSynthesis;
-    const u = new SpeechSynthesisUtterance(text);
+    const u = new SpeechSynthesisUtterance(textToRead);
     const voices = synth.getVoices();
 
     setUtterance(u);
@@ -25,9 +27,7 @@ const TextToSpeech = ({ text }) => {
     return () => {
       synth.cancel();
     };
-  }, [text]);
-
-  g
+  }, [textToRead]);
 
   const handlePlay = () => {
     const synth = window.speechSynthesis;
@@ -41,15 +41,12 @@ const TextToSpeech = ({ text }) => {
       utterance.volume = volume;
 
       utterance.addEventListener("boundary", ({ charIndex, charLength }) => {
-        setHighlightSection({ from: charIndex, to: charIndex + charLength });
       });
 
       synth.speak(utterance);
     }
 
     setIsPaused(false);
-    speaking = synth.speaking;
-    setIsSpeaking(speaking);
   };
 
   const handlePause = () => {
@@ -57,9 +54,6 @@ const TextToSpeech = ({ text }) => {
 
     synth.pause();
     setIsPaused(true);
-
-    speaking = synth.speaking;
-    setIsSpeaking(speaking);
   };
 
   const handleStop = () => {
@@ -67,17 +61,17 @@ const TextToSpeech = ({ text }) => {
 
     synth.cancel();
     setIsPaused(false);
+    setTextStartPoint(0);
+    setIsStopped(true)
+  };
 
-    speaking = synth.speaking;
-    setIsSpeaking(speaking);
-    setHighlightSection({ from: 0, to: 0 });
+  const resetTTS = () => {
+    setTextStartPoint({startIndex: 0});
   };
 
   if (utterance) {
     utterance.addEventListener("end", () => {
-      setHighlightSection({ from: 0, to: 0 });
-      setIsSpeaking(false);
-      setIsPaused(false);
+      resetTTS();
     });
   }
 
@@ -155,8 +149,7 @@ const TextToSpeech = ({ text }) => {
 
       <button onClick={handlePlay}> {isPaused ? "Resume" : "Play"} </button>
       <button
-        disabled={!isSpeaking}
-        onClick={isSpeaking ? handlePause : undefined}>
+        onClick={handlePause}>
         Pause
       </button>
       <button onClick={handleStop}>Stop</button>
@@ -164,8 +157,10 @@ const TextToSpeech = ({ text }) => {
       <Passage
         text={text}
         isPaused={isPaused}
-        isSpeaking={isSpeaking}
-        highlightSection={highlightSection}
+        isStopped={isStopped}
+        setIsStopped={setIsStopped}
+        utterance={utterance}
+        setTextStartPoint={setTextStartPoint}
       />
     </div>
   );

@@ -1,56 +1,82 @@
 import "./Passage.css";
-import HighlightedText from "./HighlightedText";
+// import HighlightedText from "./HighlightedText";
 import Selectable from "./Selectable";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const splitText = (text) => {
-  const words = []
+  const words = [];
   for (let i = 0; i < text.length - 1; i++) {
-    const wordData = {startIndex: null, word: ""}
+    const wordData = { startIndex: null, word: "" };
 
     if (text[i] !== " ") {
-      wordData.startIndex = i
+      wordData.startIndex = i;
       while (text[i] !== " " && i < text.length) {
-        wordData.word += text[i]
-        i++
+        wordData.word += text[i];
+        i++;
       }
     }
-    words.push(wordData)
+    words.push(wordData);
   }
-  return words
-}
+  return words;
+};
 
-const Passage = ({ text, isPaused, isSpeaking, highlightSection}) => {
-  const [startPoint, setStartPoint] = useState(0)
+const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }) => {
+  const [currIndex, setCurrIndex] = useState(null);
+  const [startIndex, setStartIndex] = useState(0);
 
-  const getStartPoint = (startIndex) => {
-    setStartPoint(startIndex)
-    text = text.slice(startPoint, text.length - 1)
+  const reset = useCallback(() => {
+    setCurrIndex(null);
+    setStartIndex(0);
+    setIsStopped(false)
+  }, [setIsStopped])
+
+  useEffect(() => {
+    reset()
+  }, [isStopped, reset])
+
+  const handleSelectableClick = (e) => {
+    if (e.type === 'contextmenu') { // right click
+      e.preventDefault();
+      // when right click on a selectable, make a call to dictionary api to get the definition
+      console.log('Right click');
+    }
+  };
+
+  const getStartIndex = (startIndex) => {
+    setStartIndex(startIndex);
+    setTextStartPoint(startIndex);
+    console.log(startIndex);
+  };
+
+  if (utterance) {
+    utterance.addEventListener("boundary", ({ charIndex, charLength }) => {
+      setCurrIndex(charIndex + startIndex);
+    });
+
+    utterance.addEventListener("end", () => {
+     reset()
+    });
   }
 
-  const buildParagraph = (text) => {
+  const buildParagraph = () => {
     const words = splitText(text);
     const paragraph = [];
 
     words.forEach((word) => {
-        
-      paragraph.push(<Selectable key={word.startIndex + word.word} wordData={word} getStartPoint={getStartPoint}/>);
+      paragraph.push(
+        <Selectable
+          key={word.startIndex + word.word}
+          wordData={word}
+          onClick={handleSelectableClick}
+          onContextMenu={handleSelectableClick}
+          getStartIndex={getStartIndex}
+          isHighlighted={currIndex === word.startIndex}
+        />
+      );
       paragraph.push(" ");
     });
- 
+
     return paragraph;
-  };
-
-  
-
-  const canSelect = () => {
-    if (isPaused && isSpeaking) {
-      return true;
-    } else if (!isPaused && !isSpeaking) {
-      return true;
-    } if (!isPaused && isSpeaking) {
-      return false;
-    }
   };
 
   return (
@@ -58,8 +84,7 @@ const Passage = ({ text, isPaused, isSpeaking, highlightSection}) => {
       <h2>Passage</h2>
       <div id="paragraph">
         {
-          canSelect() ? buildParagraph(text)
-          : <HighlightedText text={text} {...highlightSection} />
+          buildParagraph()
         }
       </div>
     </div>
