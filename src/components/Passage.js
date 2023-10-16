@@ -1,6 +1,8 @@
 import "./Passage.css";
 // import HighlightedText from "./HighlightedText";
 import Selectable from "./Selectable";
+import Definition from "./Definition";
+import ReadingApi from "../API";
 import { useCallback, useEffect, useState } from "react";
 
 const splitText = (text) => {
@@ -23,29 +25,58 @@ const splitText = (text) => {
 const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }) => {
   const [currIndex, setCurrIndex] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
+  const [wordToDefine, setWordToDefine] = useState(null);
+  const [wordDefinition, setWordDefinition] = useState(null);
+  const [showDefinition, setShowDefinition] = useState(false);
 
   const reset = useCallback(() => {
     setCurrIndex(null);
     setStartIndex(0);
-    setIsStopped(false)
-  }, [setIsStopped])
+    setIsStopped(false);
+  }, [setIsStopped]);
 
   useEffect(() => {
-    reset()
-  }, [isStopped, reset])
+    reset();
+  }, [isStopped, reset]);
+
+  useEffect(() => {
+    // This effect will run whenever wordToDefine changes
+    const getWordDefinition = async (word) => {
+      try {
+        const newDefinition = await ReadingApi.getDefinition(wordToDefine);
+        console.log(newDefinition);
+        setWordDefinition(newDefinition)
+        setShowDefinition(true)
+      } catch (error) {
+        console.error("Error fetching definition:", error);
+      }
+    };
+
+    if (wordToDefine) {
+      getWordDefinition(wordToDefine)
+    }
+
+    // console.log(wordToDefine);
+  }, [wordToDefine]);
 
   const handleSelectableClick = (e) => {
     if (e.type === 'contextmenu') { // right click
       e.preventDefault();
       // when right click on a selectable, make a call to dictionary api to get the definition
-      console.log('Right click');
+      let word = e.target.outerText;
+      word = word.replace(/[^a-zA-Z ]/g, "");
+      setWordToDefine(word)
     }
   };
+
+  // const getWord = (word) => {
+
+  // }
 
   const getStartIndex = (startIndex) => {
     setStartIndex(startIndex);
     setTextStartPoint(startIndex);
-    console.log(startIndex);
+    // console.log(startIndex);
   };
 
   if (utterance) {
@@ -54,7 +85,7 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
     });
 
     utterance.addEventListener("end", () => {
-     reset()
+      reset();
     });
   }
 
@@ -67,7 +98,6 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
         <Selectable
           key={word.startIndex + word.word}
           wordData={word}
-          onClick={handleSelectableClick}
           onContextMenu={handleSelectableClick}
           getStartIndex={getStartIndex}
           isHighlighted={currIndex === word.startIndex}
@@ -86,6 +116,9 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
         {
           buildParagraph()
         }
+      </div>
+      <div id="Word-Definition">
+        {showDefinition && <Definition word={wordToDefine} wordDefinitions={wordDefinition} />}
       </div>
     </div>
   );
