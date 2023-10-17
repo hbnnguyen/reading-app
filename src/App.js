@@ -1,13 +1,16 @@
 import './App.css';
 // import TextToSpeech from './components/TextToSpeech';
 // import Passage from './components/Passage';
-import Main from './components/Main';
+import Main from './pages/Main';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <Main />
-    </div>
+    <>
+      <Routes>
+        <Route path='/read' element={<Main />} />
+      </Routes>
+    </>
   );
 }
 

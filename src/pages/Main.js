@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TextToSpeech from "./TextToSpeech";
+import TextToSpeech from "../components/TextToSpeech";
 
 
 const Main = () => {
