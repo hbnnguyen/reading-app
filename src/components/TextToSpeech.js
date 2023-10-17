@@ -17,6 +17,18 @@ const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
     if (synth) {
       const u = new SpeechSynthesisUtterance(textToRead);
       setUtterance(u);
+
+      if (utterance) {
+          utterance.voice = voice;
+          utterance.pitch = pitch;
+          utterance.rate = rate;
+          utterance.volume = volume;
+        if (synth) {
+          synth.cancel();
+          resetTTS();
+        }
+        synth.speak(utterance);
+      }
     }
 
   }, [textToRead, synth]);
