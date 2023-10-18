@@ -1,5 +1,5 @@
 import './App.css';
-import { lazy, Suspense } from 'react';
+// import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
@@ -8,7 +8,8 @@ import Register from './components/Register';
 import Main from './pages/Main';
 import NoMatch from './pages/NoMatch';
 
-export const APP_ID = "wVORUhbzClDJ0XADyyTLLtwj"
+export const APP_ID = process.env.REACT_APP_PASSAGE_APP_ID
+export const API_URL= "localhost:4000"
 
 function App() {
   return (
