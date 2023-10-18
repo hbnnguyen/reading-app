@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Login from './components/Login';
 import Main from './pages/Main';
+import Profle from './pages/Profile'
 import NoMatch from './pages/NoMatch';
 import { useEffect, useState } from 'react';
 import ReadingApi from './API';
@@ -52,6 +53,8 @@ function App() {
           <Route path='/' element={<Home isLoading={isLoading} isAuthorized={isAuthorized} />} />
           <Route path='/login' element={<Login />} />
           <Route path='/read' element={<Main />} />
+          <Route path='/profile' element={<Profle />} />
+
           <Route path="*" element={<NoMatch />} />
         </Routes>
         {/* </Suspense> */}

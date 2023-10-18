@@ -15,7 +15,12 @@ const Home = ({ isLoading, isAuthorized}) => {
 
       You successfully signed in with Passage.
       <br /><br />
+      Your name is: {user && user.name}
+      <br /><br />
+      Your age is: {user && user.age}
+      <br /><br />
       Your email is: <b>{user && user.email}</b>
+      <br /><br />
       Your id is: <b>{user && user.id}</b>
     </>;
 

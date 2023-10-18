@@ -31,22 +31,33 @@ class ReadingApi {
   }
 
   static editUser = async (user, data) => {
-    user.name = data.name
-    user.age = data.age
+    // console.log("data", data.name)
+    let updatedUser = {...user}
 
-    let res = await this.request(`users/${user.id}`, user, "put");
+    updatedUser.name = data.name
+    updatedUser.age = data.age
+
+    let res = await this.request(`users/${user.id}`, updatedUser, "put");
+    console.log(res)
+
     return res;
   }
 
   static saveUserText = async (user, data) => {
-    user.texts[data.textName] = data.text
-    let res = await this.request(`users/${user.id}`, user, "put")
+    let updatedUser = {...user}
+
+    updatedUser.texts[data.textName] = data.text
+
+    let res = await this.request(`users/${user.id}`, updatedUser, "put")
+    console.log(res)
     return res
   }
 
   static saveUserBookPage = async (user, data) => {
-    user.books[data.bookID] = data.bookPage
-    let res = await this.request(`users/${user.id}`, user, "put")
+    let updatedUser = {...user}
+
+    updatedUser.books[data.bookID] = data.bookPage
+    let res = await this.request(`users/${user.id}`, updatedUser, "put")
     return res
   }
 
