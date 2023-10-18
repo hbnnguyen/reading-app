@@ -1,12 +1,13 @@
 import axios from "axios";
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
-const DICT_URL = "https://api.dictionaryapi.dev/api/v2/entries/en"
-const API_URL = "http://localhost:3005"
+const DICT_URL = process.env.REACT_APP_DICT_URL
+const API_URL = process.env.REACT_APP_API_URL;
 
 class ReadingApi {
   static async request(endpoint, data = {}, method = "get", inputHeaders) {
     const url = `${API_URL}/${endpoint}`
+    console.log(url)
     const headers = inputHeaders
     const params = (method === "get")
       ? data
@@ -16,15 +17,22 @@ class ReadingApi {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
       console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+      // let message = err.response.data.error.message;
+      // throw Array.isArray(message) ? message : [message];
     }
   }
 
-  // static createUser = async (data) => {
-  //   let res = await this.request(`users`, data, "post");
-  //   return res.token
-  // }
+  static getUser = async (userID) => {
+    console.log(userID)
+    let id = userID;
+    let res = await this.request(`users/${id}`)
+    return res;
+  }
+
+  static editUser = async (data) => {
+    let res = await this.request(`users`, data, "post");
+
+  }
 
 
 
