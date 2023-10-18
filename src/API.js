@@ -1,4 +1,5 @@
 import axios from "axios";
+import { async } from "q";
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 const DICT_URL = process.env.REACT_APP_DICT_URL
@@ -29,12 +30,25 @@ class ReadingApi {
     return res;
   }
 
-  static editUser = async (data) => {
-    let res = await this.request(`users`, data, "post");
+  static editUser = async (user, data) => {
+    user.name = data.name
+    user.age = data.age
 
+    let res = await this.request(`users/${user.id}`, user, "put");
+    return res;
   }
 
+  static saveUserText = async (user, data) => {
+    user.texts[data.textName] = data.text
+    let res = await this.request(`users/${user.id}`, user, "put")
+    return res
+  }
 
+  static saveUserBookPage = async (user, data) => {
+    user.books[data.bookID] = data.bookPage
+    let res = await this.request(`users/${user.id}`, user, "put")
+    return res
+  }
 
 
   static dictRequest = async (endpoint, data = {}, method = "get") => {
