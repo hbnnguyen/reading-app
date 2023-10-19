@@ -1,4 +1,5 @@
 import './App.css';
+import GPTTest from './pages/GPTTest';
 // import TextToSpeech from './components/TextToSpeech';
 // import Passage from './components/Passage';
 import Main from './pages/Main';
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route path='/read' element={<Main />} />
         <Route path='/write' element={<WriteBook />} />
+        <Route path='/gpt' element={<GPTTest />} />
       </Routes>
     </>
   );
