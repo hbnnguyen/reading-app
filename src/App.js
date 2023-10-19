@@ -12,7 +12,6 @@ import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Login from './components/Login';
-import Main from './pages/Main';
 import NoMatch from './pages/NoMatch';
 import { useEffect, useState } from 'react';
 import ReadingApi from './API';
