@@ -21,7 +21,7 @@ const GPTTest = () => {
 
   async function example(query) {
     const api = new ChatGPTUnofficialProxyAPI({
-      accessToken: "INSERT ACCESS TOKEN",
+      accessToken: process.env.REACT_APP_PASSAGE_APP_ID,
       apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
     })
     console.log(query)
@@ -37,12 +37,12 @@ const GPTTest = () => {
                 <Controller
                     name="Query"
                     control={control}
-                    render={({ field }) => 
-                        <TextField 
+                    render={({ field }) =>
+                        <TextField
                         id="outlined-textarea"
                         multiline
                         label="Query GPT"
-                        {...register("Query")} 
+                        {...register("Query")}
                         />}
                 />
                 <input type="submit" />

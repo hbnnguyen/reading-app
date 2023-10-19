@@ -5,6 +5,8 @@ import Definition from "./Definition";
 import ReadingApi from "../API";
 import { useCallback, useEffect, useState } from "react";
 import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
+import { useContext } from "react";
+import userContext from "../userContext";
 
 const splitText = (text) => {
   const words = [];
@@ -24,6 +26,8 @@ const splitText = (text) => {
 };
 
 const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }) => {
+  const { user } = useContext(userContext);
+
   const [currIndex, setCurrIndex] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
   const [wordToDefine, setWordToDefine] = useState(null);
@@ -49,11 +53,13 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
 //         setWordDefinition(newDefinition)
 
         const api = new ChatGPTUnofficialProxyAPI({
-          accessToken: "INSERT ACCESS TOKEN",
+          accessToken: process.env.REACT_APP_GPT_ACCESS_TOKEN,
           apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
         })
         console.log(word)
         const prompt = 'Give me a definition of the word ' + word + ' that an 8 year old would understand'
+        // const prompt = 'Give me a definition of the word ' + word + ' that an '+ user.age +' year old would understand'
+
         const newDefinition= await api.sendMessage(prompt)
         console.log(newDefinition);
         console.log(newDefinition)

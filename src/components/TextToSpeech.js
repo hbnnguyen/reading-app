@@ -4,6 +4,8 @@ import Passage from "./Passage";
 //FIXME: fix the highlighting for google voice selections
 
 const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
+  text = text.replace("_", "");
+
   const [isPaused, setIsPaused] = useState(false);
   const [isStopped, setIsStopped] = useState(false);
   const [utterance, setUtterance] = useState(null);
@@ -19,10 +21,10 @@ const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
       setUtterance(u);
 
       if (utterance) {
-          utterance.voice = voice;
-          utterance.pitch = pitch;
-          utterance.rate = rate;
-          utterance.volume = volume;
+        utterance.voice = voice;
+        utterance.pitch = pitch;
+        utterance.rate = rate;
+        utterance.volume = volume;
         if (synth) {
           synth.cancel();
           resetTTS();
