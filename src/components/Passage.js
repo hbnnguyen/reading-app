@@ -44,6 +44,10 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
     // This effect will run whenever wordToDefine changes
     const getWordDefinition = async (word) => {
       try {
+
+//         const newDefinition = await ReadingApi.getDefinition(wordToDefine);
+//         setWordDefinition(newDefinition)
+
         const api = new ChatGPTUnofficialProxyAPI({
           accessToken: "INSERT ACCESS TOKEN",
           apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
@@ -54,6 +58,7 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
         console.log(newDefinition);
         console.log(newDefinition)
         setWordDefinition(newDefinition['text'])
+
         setShowDefinition(true)
       } catch (error) {
         console.error("Error fetching definition:", error);
@@ -101,10 +106,10 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
     const words = splitText(text);
     const paragraph = [];
 
-    words.forEach((word) => {
+    words.forEach((word, index) => {
       paragraph.push(
         <Selectable
-          key={word.startIndex + word.word}
+          key={word.startIndex + word.word + index}
           wordData={word}
           onContextMenu={handleSelectableClick}
           getStartIndex={getStartIndex}

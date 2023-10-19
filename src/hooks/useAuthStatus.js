@@ -12,7 +12,6 @@ export function useAuthStatus() {
   });
 
   useEffect(() => {
-    console.log("hello")
     let cancelRequest = false;
     const authToken = localStorage.getItem("psg_auth_token");
     axios
