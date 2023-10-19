@@ -4,6 +4,7 @@ import Selectable from "./Selectable";
 import Definition from "./Definition";
 import ReadingApi from "../API";
 import { useCallback, useEffect, useState } from "react";
+import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
 
 const splitText = (text) => {
   const words = [];
@@ -43,8 +44,21 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
     // This effect will run whenever wordToDefine changes
     const getWordDefinition = async (word) => {
       try {
-        const newDefinition = await ReadingApi.getDefinition(wordToDefine);
-        setWordDefinition(newDefinition)
+
+//         const newDefinition = await ReadingApi.getDefinition(wordToDefine);
+//         setWordDefinition(newDefinition)
+
+        const api = new ChatGPTUnofficialProxyAPI({
+          accessToken: "INSERT ACCESS TOKEN",
+          apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
+        })
+        console.log(word)
+        const prompt = 'Give me a definition of the word ' + word + ' that an 8 year old would understand'
+        const newDefinition= await api.sendMessage(prompt)
+        console.log(newDefinition);
+        console.log(newDefinition)
+        setWordDefinition(newDefinition['text'])
+
         setShowDefinition(true)
       } catch (error) {
         console.error("Error fetching definition:", error);

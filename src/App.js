@@ -1,4 +1,9 @@
 import './App.css';
+import GPTTest from './pages/GPTTest';
+// import TextToSpeech from './components/TextToSpeech';
+// import Passage from './components/Passage';
+import Main from './pages/Main';
+import WriteBook from './pages/WriteBook';
 // import { lazy, Suspense } from 'react';
 import { useAuthStatus } from './hooks/useAuthStatus';
 import userContext from "./userContext";
@@ -7,6 +12,7 @@ import { Routes, Route } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Home from './pages/Home';
 import Login from './components/Login';
+
 import Main from './pages/Main';
 import Profle from './pages/Profile'
 import NoMatch from './pages/NoMatch';
@@ -59,6 +65,8 @@ function App() {
           <Route path='/library' element={<Library />} />
           <Route path="/books/read/:bookID" element={<ReadBook />} />
           <Route path="*" element={<NoMatch />} />
+          <Route path='/write' element={<WriteBook />} />
+          <Route path='/gpt' element={<GPTTest />} />
         </Routes>
         {/* </Suspense> */}
       </userContext.Provider>
