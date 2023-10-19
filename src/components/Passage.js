@@ -55,7 +55,7 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
             accessToken: "INSERT TOKEN",
             apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
           })
-          const prompt = 'Generate a multiple choice question based on the following please output only the quiz as a JSON in the form "Question: Q, Options:[], CorrectOption:[index] ' + text
+          const prompt = 'Generate a multiple choice question please output only the quiz as a JSON in the form "Question: Q, Options:[], CorrectOption:[index]". Base the quiz on the following passage: ' + text
           const resp = await api.sendMessage(prompt)
           console.log(resp)
           console.log(JSON.parse(resp['text']))
