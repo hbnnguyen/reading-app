@@ -44,7 +44,6 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
     const getWordDefinition = async (word) => {
       try {
         const newDefinition = await ReadingApi.getDefinition(wordToDefine);
-        console.log(newDefinition);
         setWordDefinition(newDefinition)
         setShowDefinition(true)
       } catch (error) {
@@ -93,10 +92,10 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
     const words = splitText(text);
     const paragraph = [];
 
-    words.forEach((word) => {
+    words.forEach((word, index) => {
       paragraph.push(
         <Selectable
-          key={word.startIndex + word.word}
+          key={word.startIndex + word.word + index}
           wordData={word}
           onContextMenu={handleSelectableClick}
           getStartIndex={getStartIndex}

@@ -22,7 +22,6 @@ const Definition = ({ word, wordDefinitions }) => {
   useEffect(() => {
     const array = toDisplay();
     setDataToDisplay(array)
-    console.log(array);
   }, [word, toDisplay]);
 
   return (

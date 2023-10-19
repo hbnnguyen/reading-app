@@ -12,6 +12,8 @@ import Profle from './pages/Profile'
 import NoMatch from './pages/NoMatch';
 import { useEffect, useState } from 'react';
 import ReadingApi from './API';
+import Library from './pages/Library';
+import ReadBook from './pages/ReadBook';
 
 export const APP_ID = process.env.REACT_APP_PASSAGE_APP_ID;
 // export const API_URL= "localhost:4000"
@@ -54,7 +56,8 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/read' element={<Main />} />
           <Route path='/profile' element={<Profle />} />
-
+          <Route path='/library' element={<Library />} />
+          <Route path="/books/read/:bookID" element={<ReadBook />} />
           <Route path="*" element={<NoMatch />} />
         </Routes>
         {/* </Suspense> */}
