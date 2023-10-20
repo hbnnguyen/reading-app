@@ -34,13 +34,18 @@ const generateQuiz = async (text) => {
 const getQuiz = async (text) => {
   try {
     generateQuiz(text).then(resp =>{
-      const data = JSON.parse(resp['text'])
-      const options = data['Options']
-      setQuestion(data['Question'])
-      setAnswer(options[data['CorrectOption']])
-      const li = options.map(option => <FormControlLabel value={option} control={<Radio />} label={option} />);
-      setList(li)
-      setIsGenerated(true)
+      try{
+        const data = JSON.parse(resp['text'])
+        const options = data['Options']
+        setQuestion(data['Question'])
+        setAnswer(options[data['CorrectOption']])
+        const li = options.map(option => <FormControlLabel value={option} control={<Radio />} label={option} />);
+        setList(li)
+        setIsGenerated(true)
+      } catch (error) {
+        console.log(error)
+      }
+      
     })
   } catch (error) {
     console.log(error)
