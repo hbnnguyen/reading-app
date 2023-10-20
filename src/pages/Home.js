@@ -4,7 +4,7 @@ import userContext from "../userContext";
 import ReadingApi from '../API';
 import { Link } from "react-router-dom";
 
-import { Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Box, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import './Home.css';
 
 const Home = ({ isLoading, isAuthorized }) => {
@@ -101,8 +101,6 @@ const Home = ({ isLoading, isAuthorized }) => {
 
   const authorizedBody =
     <>
-      You successfully signed in with Passage.
-      <br /><br />
       <p>Hi {user && user.name}!</p>
 
       {/* Your age is: {user && user.age} */}
@@ -137,20 +135,19 @@ const Home = ({ isLoading, isAuthorized }) => {
 
   return (
     <Container className='home-container' maxWidth="sm">
-      <div className='home-main'>
+        <Box className='home-main'>
+          <div>
+            <h1>
+              {isAuthorized ? 'Welcome!' : 'Unauthorized'}
+            </h1>
 
-        <div>
-          <h1>
-            {isAuthorized ? 'Welcome!' : 'Unauthorized'}
-          </h1>
-
-        </div>
-        <br></br>
-        <div>
-          {isAuthorized ? authorizedBody : unauthorizedBody}
-        </div>
-        {/* <Button onClick={handleBookClick}>add book at page 0</Button> */}
-      </div>
+          </div>
+          <br></br>
+          <div>
+            {isAuthorized ? authorizedBody : unauthorizedBody}
+          </div>
+          {/* <Button onClick={handleBookClick}>add book at page 0</Button> */}
+        </Box>
     </Container>
 
   );

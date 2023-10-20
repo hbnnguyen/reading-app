@@ -4,6 +4,7 @@ import userContext from "../userContext";
 import ReadingApi from '../API';
 import Book from "../components/Book";
 import { Navigate } from "react-router-dom";
+import './Library.css'
 import {Button, List, ListItem, ListItemText, Divider} from '@mui/material';
 
 
@@ -26,21 +27,18 @@ const Library = () => {
     const listOfBooks = [];
     if (books.data) {
       books.data.forEach(book => {
-        listOfBooks.push(<Divider key={book.id + "divider"} />)
         listOfBooks.push(
-          <ListItem key={book.id}>
-            <Book bookInfo={book} />
-          </ListItem>
+            <Book key={book.id} bookInfo={book} />
         );
       });
     }
     return listOfBooks;
   };
 
-  const listOfBooks =
-    <List aria-label="mailbox folders">
-      {books && listBooks()}
-    </List>
+  // const listOfBooks =
+  //   <div>
+  //     {books && listBooks()}
+  //   </div>
 
 
   if (books.isLoading) return <i>Loading...</i>;
@@ -51,7 +49,7 @@ const Library = () => {
 
   return (
     <div id="Library">
-      {books && listOfBooks}
+      {books && listBooks()}
     </div>
   );
 

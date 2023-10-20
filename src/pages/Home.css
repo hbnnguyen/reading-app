@@ -1,12 +1,17 @@
 .home-container {
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3em;
 }
 
 .home-main {
     display: flex;
     flex-direction: column;
-    background-color: aqua;
+    background-color: rgb(151, 187, 255);
     align-items: center;
-    justify-content: center;
     padding: 2em;
+    border-radius: 8px;
+    color: black;
 }
