@@ -137,8 +137,9 @@ const ReadBook = () => {
       <TextToSpeech text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
       <button onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</button>
       <button onClick={handleNextPage}>next page</button>
-      <div id="quiz"> 
-       <Quiz quiz={text}/>
+      <div id="quiz"> {
+        !text.isLoading && <Quiz text={text.data}/>
+      }
       </div>
     </div>
   );

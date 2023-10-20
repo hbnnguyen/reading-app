@@ -34,8 +34,6 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
   const [wordToDefine, setWordToDefine] = useState(null);
   const [wordDefinition, setWordDefinition] = useState(null);
   const [showDefinition, setShowDefinition] = useState(false);
-  const [generatedQuiz, setIsGenerated] = useState(false);
-  const [popQuiz, setPopQuiz] = useState(null);
 
 
   const reset = useCallback(() => {
