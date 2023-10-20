@@ -3,6 +3,7 @@ import TextToSpeech from "../components/TextToSpeech";
 import { useParams } from "react-router";
 import userContext from "../userContext";
 import ReadingApi from "../API";
+import Quiz from "../components/Quiz";
 
 
 const ReadBook = () => {
@@ -15,6 +16,7 @@ const ReadBook = () => {
   const [synth, setSynth] = useState(null);
   const [pageNumber, setPageNumber] = useState(1);
   const [text, setText] = useState(({ data: null, isLoading: true }));
+
 
   useEffect(function fetchAndSetText() {
     const fetchText = async () => {
@@ -135,6 +137,10 @@ const ReadBook = () => {
       <TextToSpeech text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
       <button onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</button>
       <button onClick={handleNextPage}>next page</button>
+      <div id="quiz"> {
+        !text.isLoading && <Quiz text={text.data}/>
+      }
+      </div>
     </div>
   );
 };
