@@ -4,6 +4,7 @@ import userContext from "../userContext";
 import ReadingApi from '../API';
 import Book from "../components/Book";
 import { Navigate } from "react-router-dom";
+import Button from '@mui/material/Button';
 
 
 const Library = () => {
@@ -25,7 +26,12 @@ const Library = () => {
     const listOfBooks = [];
     if (books) {
       books.data.forEach(element => {
-        listOfBooks.push(<Book key={element.id} bookInfo={element} />);
+        listOfBooks.push(
+          <Button size="small">
+            <Book key={element.id} bookInfo={element} />
+          </Button>
+        );
+        listOfBooks.push(<br></br>)
       });
     }
     return listOfBooks;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Passage from "./Passage";
+import Button from '@mui/material/Button';
 
 //FIXME: fix the highlighting for google voice selections
 
@@ -81,12 +82,9 @@ const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
 
   return (
     <div id="TextToSpeech">
-      <button onClick={handlePlay}> {isPaused ? "Resume" : "Play"} </button>
-      <button
-        onClick={handlePause}>
-        Pause
-      </button>
-      <button onClick={handleStop}>Stop</button>
+      <Button variant="outlined" onClick={handlePlay}> {isPaused ? "Resume" : "Play"} </Button>
+      <Button variant="outlined" onClick={handlePause}>Pause</Button>
+      <Button variant="outlined" onClick={handleStop}>Stop</Button>
 
       <Passage
         text={text}
