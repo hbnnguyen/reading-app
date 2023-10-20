@@ -28,19 +28,24 @@ const WriteBook = () => {
                 <Controller
                     name="title"
                     control={control}
-                    render={({ field }) => 
-                    <TextField id="outlined-basic" label="title" variant="outlined" 
+                    // render={({ field }) =>
+                    // <TextField id="outlined-basic" label="Title" variant="outlined"
+                    // {...register("Title")} />}
+
+                    render={({ field }) =>
+                    <TextField id="outlined-basic" label="title" variant="outlined"
                     {...register("title")} />}
                 />
                 <Controller
                     name="text"
                     control={control}
-                    render={({ field }) => 
-                        <TextField 
+                    render={({ field }) =>
+                        <TextField
                         id="outlined-textarea"
                         multiline
                         label="Book Content"
-                        {...register("text")} 
+                        // {...register("Book")}
+                        {...register("text")}
                         />}
                 />
                 <input type="submit" />

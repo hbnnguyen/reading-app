@@ -19,6 +19,12 @@ import { useEffect, useState } from 'react';
 import ReadingApi from './API';
 import Library from './pages/Library';
 import ReadBook from './pages/ReadBook';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+  primary: '#8e653e',
+  secondary: '#634736'
+})
 
 export const APP_ID = process.env.REACT_APP_PASSAGE_APP_ID;
 // export const API_URL= "localhost:4000"
@@ -52,8 +58,9 @@ function App() {
 
   return (
     <>
+    <div className='App'>
       <userContext.Provider value={{ user: user.data }}>
-        <NavBar />
+        <NavBar className='Nav-Bar'/>
         {/* fallback props can hold a component */}
         {/* <Suspense fallback={<div className="container">Loading...</div>}> */}
         <Routes>
@@ -69,6 +76,7 @@ function App() {
         </Routes>
         {/* </Suspense> */}
       </userContext.Provider>
+    </div>
     </>
   );
 }
