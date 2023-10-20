@@ -49,27 +49,6 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
   }, [isStopped, reset]);
 
   useEffect(() => {
-      const generateQuiz = async () => {
-        try {
-          const api = new ChatGPTUnofficialProxyAPI({
-            accessToken: "INSERT TOKEN",
-            apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
-          })
-          const prompt = 'Generate a multiple choice question please output only the quiz as a JSON in the form "Question: Q, Options:[], CorrectOption:[index]". Base the quiz on the following passage: ' + text
-          const resp = await api.sendMessage(prompt)
-          console.log(resp)
-          console.log(JSON.parse(resp['text']))
-          setPopQuiz(JSON.parse(resp['text']))
-          setIsGenerated(true)
-
-        } catch (error) {
-          console.error("Error fetching definition:", error);
-        }
-    }
-    if (!generatedQuiz) {
-        generateQuiz()
-    }
-
     // This effect will run whenever wordToDefine changes
     const getWordDefinition = async (word) => {
       try {
@@ -162,9 +141,6 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
       </div>
       <div id="Word-Definition">
         {showDefinition && <Definition word={wordToDefine} wordDefinitions={wordDefinition} />}
-      </div>
-      <div id="quiz"> 
-       { generatedQuiz && <Quiz quiz={popQuiz}/> }
       </div>
     </div>
   );
