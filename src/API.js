@@ -40,8 +40,7 @@ class ReadingApi {
 
   static saveUserText = async (user, data) => {
     let updatedUser = {...user}
-
-    updatedUser.texts[data.textName] = data.text
+    updatedUser.texts[data.title] = data.text
 
     let res = await this.request(`users/${user.id}`, updatedUser, "put")
     return res
@@ -63,6 +62,7 @@ class ReadingApi {
     let res = await this.request(`books`)
     return res
   }
+
 
   static getBook = async (bookID) => {
     let res = await this.request(`books/${bookID}`)

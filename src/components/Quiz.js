@@ -6,26 +6,52 @@ import FormControl from '@mui/material/FormControl';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import Button from '@mui/material/Button';
+import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
 
-const Quiz = ({ quiz }) => {
-   const [question, setQuestion] = useState(null)
-   const[options, setOptions] = useState([])
-   const[answer, setAnswer] = useState(null)
+const Quiz = ({ text }) => {
+   const [question, setQuestion] = useState("")
+   const[answer, setAnswer] = useState("")
    const[listItems, setList] = useState(null)
    const [value, setValue] = React.useState('');
    const [error, setError] = React.useState(false);
    const [helperText, setHelperText] = React.useState('Choose wisely');
+   const [generatedQuiz, setIsGenerated] = useState(false);
 
-   useEffect(() => {
-    setQuestion(quiz['Question'])
-    setOptions(quiz['Options'])
-    setAnswer(options[quiz['CorrectOption']])
+const generateQuiz = async (text) => {
+  try {
+    const api = new ChatGPTUnofficialProxyAPI({
+      accessToken: process.env.REACT_APP_GPT_ACCESS_TOKEN,
+      apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
+    })
+    const prompt = 'Generate a multiple choice question please output only the quiz as a JSON in the form "Question: Q, Options:[], CorrectOption:[index]". Base the quiz on the following passage: ' + text
+    return await api.sendMessage(prompt)
 
-    const li = options.map(option => <FormControlLabel value={option} control={<Radio />} label={option} />);
-    setList(li)
-
-  }, [options, quiz]);
-
+  } catch (error) {
+    console.error("Error fetching definition:", error);
+    return error
+  }
+}
+const getQuiz = async (text) => {
+  try {
+    generateQuiz(text).then(resp =>{
+      try{
+        const data = JSON.parse(resp['text'])
+        const options = data['Options']
+        setQuestion(data['Question'])
+        setAnswer(options[data['CorrectOption']])
+        const li = options.map(option => <FormControlLabel value={option} control={<Radio />} label={option} />);
+        setList(li)
+        setIsGenerated(true)
+      } catch (error) {
+        console.log(error)
+      }
+      
+    })
+  } catch (error) {
+    console.log(error)
+  }
+  
+}
   const handleRadioChange = (event) => {
     setValue(event.target.value);
     setHelperText(' ');
@@ -34,8 +60,6 @@ const Quiz = ({ quiz }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(answer)
-    console.log(value)
     if (value === answer) {
       setHelperText('You got it!');
       setError(false);
@@ -44,25 +68,31 @@ const Quiz = ({ quiz }) => {
       setError(true);
     } 
   };
-
+  
   return(
     <div>
-      <form onSubmit={handleSubmit}>
-        <FormLabel id="quiz">Pop quiz!: {question} </FormLabel>
-            <RadioGroup
-                aria-labelledby="quiz"
-                name="quiz"
-                value={value}
-                onChange={handleRadioChange}
-                >
-                {listItems}
-            </RadioGroup>
-                <FormHelperText>{helperText}</FormHelperText>
-                <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
-                Check Answer
-                </Button>
-        </form>
-
+      <div id="gen-quiz">{ !generatedQuiz && 
+        <Button variant="outlined" onClick={async () => await getQuiz(text)}> Generate Quiz </Button>
+        }
+      </div>
+      <div id="quiz">{ generatedQuiz &&
+        <form onSubmit={handleSubmit}>
+          <FormLabel id="quiz">Pop quiz!: {question} </FormLabel>
+              <RadioGroup
+                  aria-labelledby="quiz"
+                  name="quiz"
+                  value={value}
+                  onChange={handleRadioChange}
+                  >
+                  {listItems}
+              </RadioGroup>
+                  <FormHelperText>{helperText}</FormHelperText>
+                  <Button sx={{ mt: 1, mr: 1 }} type="submit" variant="outlined">
+                  Check Answer
+                  </Button>
+          </form>
+        }
+      </div>
     </div>
   )
 };
