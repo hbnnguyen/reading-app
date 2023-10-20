@@ -6,8 +6,6 @@ import ReadingApi from '../API';
 const Book = ({ bookInfo }) => {
   const { user } = useContext(userContext);
 
-
-
   return (
     <Link to={`/books/read/${bookInfo.id}`} style={{
       textDecoration: "none",
@@ -16,9 +14,9 @@ const Book = ({ bookInfo }) => {
 
       <div id={bookInfo.title}>
         {bookInfo.authors && bookInfo.authors[0] ? (
-          <h4>{bookInfo.title} by {bookInfo.authors[0].name}</h4>
+          <p><b>{bookInfo.title}</b> by {bookInfo.authors[0].name}</p>
         ) : (
-          <h4>{bookInfo.title}</h4>
+          <p><b>{bookInfo.title}</b></p>
         )}
       </div>
 
