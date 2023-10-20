@@ -55,7 +55,7 @@ const Home = ({ isLoading, isAuthorized}) => {
       <div>
         {isAuthorized ? authorizedBody : unauthorizedBody}
       </div>
-      {/* <button onClick={handleBookClick}>add book at page 0</button> */}
+      {/* <Button onClick={handleBookClick}>add book at page 0</Button> */}
     </div>
   );
 

@@ -13,15 +13,15 @@ const Book = ({ bookInfo }) => {
       textDecoration: "none",
       color: "black"
     }}>
-      <div id="Book">
-        <div id={bookInfo.title}>
-          {bookInfo.authors && bookInfo.authors[0] ? (
-            <h4>{bookInfo.title} by {bookInfo.authors[0].name}</h4>
-          ) : (
-            <h4>{bookInfo.title}</h4>
-          )}
-        </div>
+
+      <div id={bookInfo.title}>
+        {bookInfo.authors && bookInfo.authors[0] ? (
+          <h4>{bookInfo.title} by {bookInfo.authors[0].name}</h4>
+        ) : (
+          <h4>{bookInfo.title}</h4>
+        )}
       </div>
+
     </Link>
   );
 };

@@ -3,7 +3,7 @@ import TextToSpeech from "../components/TextToSpeech";
 import { useParams } from "react-router";
 import userContext from "../userContext";
 import ReadingApi from "../API";
-
+import Button from '@mui/material/Button';
 
 const ReadBook = () => {
   const { user } = useContext(userContext);
@@ -133,8 +133,8 @@ const ReadBook = () => {
 
       <br />
       <TextToSpeech text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-      <button onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</button>
-      <button onClick={handleNextPage}>next page</button>
+      <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</Button>
+      <Button variant="outlined" onClick={handleNextPage}>next page</Button>
     </div>
   );
 };
