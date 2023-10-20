@@ -4,7 +4,8 @@ import userContext from "../userContext";
 import ReadingApi from '../API';
 import Book from "../components/Book";
 import { Navigate } from "react-router-dom";
-import Button from '@mui/material/Button';
+import './Library.css'
+import {Button, List, ListItem, ListItemText, Divider} from '@mui/material';
 
 
 const Library = () => {
@@ -17,25 +18,28 @@ const Library = () => {
   useEffect(function fetchAndSetBooks() {
     const fetchBooks = async () => {
       const newBooks = await ReadingApi.getBooks();
-      setBooks(({data:newBooks.books.results, isLoading: false}));
+      setBooks(({ data: newBooks.books.results, isLoading: false }));
     };
     fetchBooks();
   }, []);
 
   const listBooks = () => {
     const listOfBooks = [];
-    if (books) {
-      books.data.forEach(element => {
+    if (books.data) {
+      books.data.forEach(book => {
         listOfBooks.push(
-          <Button size="small">
-            <Book key={element.id} bookInfo={element} />
-          </Button>
+            <Book key={book.id} bookInfo={book} />
         );
-        listOfBooks.push(<br></br>)
       });
     }
     return listOfBooks;
   };
+
+  // const listOfBooks =
+  //   <div>
+  //     {books && listBooks()}
+  //   </div>
+
 
   if (books.isLoading) return <i>Loading...</i>;
 

@@ -1,0 +1,13 @@
+.book-card {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(151, 187, 255);
+    min-height: 30em;
+    min-width: 20em;
+    max-height: 30em;
+    max-width: 20em;
+    justify-content: space-around;
+    align-items:center;
+    text-align: center;
+    border-radius: 8px;
+}

@@ -63,6 +63,12 @@ class ReadingApi {
     return res
   }
 
+
+  static getBook = async (bookID) => {
+    let res = await this.request(`books/${bookID}`)
+    return res
+  }
+
   static getBookPage = async (data) => {
     let bookID = data.bookID
     let pageNumber = data.pageNumber

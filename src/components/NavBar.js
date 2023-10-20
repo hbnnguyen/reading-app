@@ -21,7 +21,7 @@ const NavBar = () => {
    const handleMenu = (stateFunc, currentState) => {
     stateFunc(!currentState);
    };
- 
+
    const handleClose = (stateFunc) => {
     stateFunc(null);
    };
