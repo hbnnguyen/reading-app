@@ -18,22 +18,13 @@ const NavBar = () => {
    const [pageMenu, setPage] = React.useState(null);
    const [anchorEl, setAnchorEl] = React.useState(null);
 
-   const handleMenu = (event) => {
-     setAnchorEl(event.currentTarget);
+   const handleMenu = (stateFunc, currentState) => {
+    stateFunc(!currentState);
    };
  
-   const handleClose = () => {
-     setAnchorEl(null);
+   const handleClose = (stateFunc) => {
+    stateFunc(null);
    };
- 
-   const handleMenu2 = (event) => {
-      setPage(event.currentTarget);
-    };
-  
-    const handleClose2 = () => {
-      setPage(null);
-    };
-
    return (
      <Box sx={{ flexGrow: 1 }}>
        <AppBar position="static">
@@ -44,13 +35,12 @@ const NavBar = () => {
              color="inherit"
              aria-label="menu"
              sx={{ mr: 2 }}
+             onClick={() => handleMenu(setPage, pageMenu)}
            >
-             <MenuIcon 
-             onClick={handleMenu2}
-             />
+             <MenuIcon/>
              <Menu
                  id="menu-appbar"
-                 pageMenu={pageMenu}
+                 anchorEl={pageMenu}
                  anchorOrigin={{
                    vertical: 'top',
                    horizontal: 'left',
@@ -61,13 +51,11 @@ const NavBar = () => {
                    horizontal: 'left',
                  }}
                  open={Boolean(pageMenu)}
-                 onClose={handleClose2}
+                 onClose={() => handleClose(setPage)}
                >
-                 <MenuItem onClick={handleClose2}> <Link to="/">Home</Link> </MenuItem>
-                 <MenuItem onClick={handleClose2}> <Link to="/Login">Login</Link> </MenuItem>
-                 <MenuItem onClick={handleClose2}> <Link to="/read">Read</Link> </MenuItem>
-                 <MenuItem onClick={handleClose2}> <Link to="/profile">Profile</Link> </MenuItem>
-                 <MenuItem onClick={handleClose2}> <Link to="/library">Library</Link> </MenuItem>
+                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/">Home</Link> </MenuItem>
+                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/read">Read</Link> </MenuItem>
+                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/library">Library</Link> </MenuItem>
                </Menu>
            </IconButton>
            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -79,7 +67,7 @@ const NavBar = () => {
                  aria-label="account of current user"
                  aria-controls="menu-appbar"
                  aria-haspopup="true"
-                 onClick={handleMenu}
+                 onClick={() => handleMenu(setAnchorEl)}
                  color="inherit"
                >
                  <AccountCircle />
@@ -97,10 +85,11 @@ const NavBar = () => {
                    horizontal: 'right',
                  }}
                  open={Boolean(anchorEl)}
-                 onClose={handleClose}
+                 onClose={() => handleClose(setAnchorEl, anchorEl)}
                >
-                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                 <MenuItem onClick={handleClose}>My account</MenuItem>
+                 <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/profile">Profile</Link></MenuItem>
+                 <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/write">Add a book</Link></MenuItem>
+                 <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/Login">Login</Link></MenuItem>
                </Menu>
              </div>
          </Toolbar>
@@ -108,27 +97,6 @@ const NavBar = () => {
      </Box>
    );
 
-//  return (
-//  <nav>
-//        <ul>
-//           <li>
-//              <Link to="/">Home</Link>
-//           </li>
-//           <li>
-//              <Link to="/Login">Login</Link>
-//           </li>
-//           <li>
-//              <Link to="/read">Read</Link>
-//           </li>
-//           <li>
-//              <Link to="/profile">Profile</Link>
-//           </li>
-//           <li>
-//              <Link to="/library">Library</Link>
-//           </li>
-//        </ul>
-//  </nav>
-//  );
 };
 
 export default NavBar;
