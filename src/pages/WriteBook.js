@@ -17,8 +17,12 @@ const WriteBook = () => {
   const { user } = useContext(userContext);
 
   const onSubmit = async (data) => {
-    await ReadingApi.saveUserText(user, data)
-    console.log(user)
+    try {
+      await ReadingApi.saveUserText(user, data)
+      console.log(user)
+    } catch (error) {
+      console.log(error)
+    }
 
   }
     return (
