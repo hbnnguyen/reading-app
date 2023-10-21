@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 import { Box, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import './Home.css';
+import {LOADING_IMG_URL} from '../App'
 
 const Home = ({ isLoading, isAuthorized }) => {
   const { user } = useContext(userContext);
@@ -87,7 +88,12 @@ const Home = ({ isLoading, isAuthorized }) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
+              <Link to={`/texts/read/${title}`} style={{
+                  textDecoration: "none",
+                  color: "black"
+                }}>
                 {title}
+              </Link>
               </TableCell>
             </TableRow>
           ))}
@@ -96,18 +102,13 @@ const Home = ({ isLoading, isAuthorized }) => {
     </TableContainer>;
 
   if (isLoading) {
-    return <i>Loading...</i>;
+    return (
+    <img alt='page loading gif' src={LOADING_IMG_URL}></img>)
   }
 
   const authorizedBody =
     <>
       <p>Hi {user && user.name}!</p>
-
-      {/* Your age is: {user && user.age} */}
-
-      {/* Your email is: <b>{user && user.email}</b> */}
-
-      {/* Your id is: <b>{user && user.id}</b> */}
 
       {textsTable}
       <br /><br />

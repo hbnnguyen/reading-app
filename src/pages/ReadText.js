@@ -3,35 +3,18 @@ import TextToSpeech from "../components/TextToSpeech";
 import { useParams } from "react-router";
 import userContext from "../userContext";
 import ReadingApi from "../API";
-import Button from '@mui/material/Button';
 import Quiz from "../components/Quiz";
-import {LOADING_IMG_URL} from '../App'
 
-const ReadBook = () => {
+
+const ReadText = () => {
   const { user } = useContext(userContext);
-  const { bookID } = useParams();
+  const { title } = useParams();
   const [voice, setVoice] = useState(null);
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
   const [synth, setSynth] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [text, setText] = useState(({ data: null, isLoading: true }));
-  const [catsKey, setCatsKey] = useState(0);
-
-
-  useEffect(function fetchAndSetText() {
-    const fetchText = async () => {
-      let data = { bookID: bookID, pageNumber: 1 };
-      if (user) {
-        data.pageNumber = user.books[bookID];
-        setPageNumber(user.books[bookID]);
-      }
-      const newText = await ReadingApi.getBookPage(data);
-      setText(({ data: newText, isLoading: false }));
-    };
-    fetchText();
-  }, [pageNumber, bookID, user]);
+  const [text, setText] = useState(({ data: user.texts[title], isLoading: true }));
 
   useEffect(() => {
     setSynth(window.speechSynthesis);
@@ -65,28 +48,6 @@ const ReadBook = () => {
     setVolume(parseFloat(event.target.value));
   };
 
-  const handlePrevPage = async () => {
-    const newPage = pageNumber - 1;
-
-    setPageNumber(newPage)
-    let data = {bookID: bookID, pageNumber: newPage}
-    await ReadingApi.saveUserBookPage(user, data)
-    setCatsKey(key => key + 1)
-  };
-
-
-  const handleNextPage = async () => {
-    const newPage = pageNumber + 1;
-    setPageNumber(newPage);
-
-    let data = {bookID: bookID, pageNumber: newPage}
-    await ReadingApi.saveUserBookPage(user, data)
-    setCatsKey(key => key + 1)
-  };
-
-  if (text.isLoading) {
-    return <img alt="book flipping" src={LOADING_IMG_URL} ></img>
-  }
 
   return (
     <div id="Main">
@@ -142,16 +103,14 @@ const ReadBook = () => {
       </label>
 
       <br />
-      <TextToSpeech pageNumber={pageNumber && pageNumber} text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-      <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</Button>
-      <Button variant="outlined" onClick={handleNextPage}>next page</Button>
-      {/* <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</Button>
-      <Button variant="outlined" onClick={handleNextPage}>next page</Button> */}
-      <div id="quiz">
-        <Quiz key={catsKey} text={text.data ? text.data : " "}/>
+      <TextToSpeech text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
+
+      <div id="quiz"> {
+        !text.isLoading && <Quiz text={text.data} />
+      }
       </div>
     </div>
   );
 };
 
-export default ReadBook;
+export default ReadText;

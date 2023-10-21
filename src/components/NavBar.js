@@ -54,12 +54,12 @@ const NavBar = () => {
                  onClose={() => handleClose(setPage)}
                >
                  <MenuItem onClick={() => handleClose(setPage)}> <Link to="/">Home</Link> </MenuItem>
-                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/read">Read</Link> </MenuItem>
+                 {/* <MenuItem onClick={() => handleClose(setPage)}> <Link to="/read">Read</Link> </MenuItem> */}
                  <MenuItem onClick={() => handleClose(setPage)}> <Link to="/library">Library</Link> </MenuItem>
                </Menu>
            </IconButton>
            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-             Reading App
+             PagePal
            </Typography>
              <div>
                <IconButton
