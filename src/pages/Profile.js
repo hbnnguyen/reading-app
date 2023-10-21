@@ -4,10 +4,11 @@ import userContext from "../userContext";
 import TextField from '@mui/material/TextField';
 import ReadingApi from "../API";
 import { Button } from '@mui/material/';
-import { useNavigate } from "react-router-dom";
+import './Profile.css';
+import '@passageidentity/passage-elements/passage-profile';
 
-const Profile = () => {
-  const { user } = useContext(userContext);
+const Profile = ({ user, setUser }) => {
+  // const { user } = useContext(userContext);
   const [userInfo, setUserInfo] = useState({
     name: "",
     age: "",
@@ -15,11 +16,11 @@ const Profile = () => {
   });
 
   useEffect(function getUserInfo() {
-    if (user) {
+    if (user.data) {
       setUserInfo({
-        name: user.name,
-        age: user.age,
-        email: user.email
+        name: user.data.name,
+        age: user.data.age,
+        email: user.data.email
       });
     }
   }, [user]);
@@ -33,43 +34,69 @@ const Profile = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await ReadingApi.editUser(user, data);
-    window.location.reload();
+    await ReadingApi.editUser(user.data, data);
+    let newUser = { ...user };
+    newUser.data.name = data.name;
+    newUser.data.age = data.age;
+    setUser(newUser);
   };
 
   return (
-    <div id="Main">
+    <div>
+    <div className="profile-container" id="Main">
       <div className="user-profile">
-        name: {userInfo.name}
-        <br></br>
-        age: {userInfo.age}
-        <br></br>
-        email: {userInfo.email}
+        <div className="profile-head">
+          <h3>Profile</h3>
+        </div>
+        <div className="space">
+          <b>Name:</b>
+          <br></br>
+          {userInfo.name}
+        </div>
+        <div className="space">
+          <b>Age:</b>
+          <br></br>
+          {userInfo.age}
+        </div>
+        <div className="space">
+          <b>Email:</b>
+          <br></br>
+          {userInfo.email}
+        </div>
       </div>
       <div id="Form">
-        <h3>Update User Information</h3>
+        <h3>Update Information</h3>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller
             name="Name"
             control={control}
             render={({ field }) =>
-              <TextField id="outlined-basic" label="Name" variant="outlined"
-                {...register("name", {
-                  required: true
-                })} />}
+              <div className="name-container">
+                <TextField defaultValue={user.data && user.data.name} className="name-input" id="outlined-basic" label="Name" variant="outlined"
+                  {...register("name", {
+                    required: true
+                  })} />
+              </div>
+            }
           />
-
           <Controller
             name="Age"
             control={control}
             render={({ field }) =>
-              <TextField id="outlined-basic" label="Age" variant="outlined"
+              <TextField defaultValue={user.data && user.data.age} className="age-input" id="outlined-basic" label="Age" variant="outlined"
                 {...register("age")} />}
           />
+          <br></br>
+          <br></br>
+
           <Button variant="outlined" type="submit">Submit</Button>
         </form>
       </div>
     </div>
+      <div>
+        <passage-profile app-id={process.env.REACT_APP_PASSAGE_APP_ID}></passage-profile>
+      </div>
+      </div>
   );
 };
 

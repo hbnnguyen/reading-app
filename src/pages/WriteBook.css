@@ -1,7 +1,12 @@
-#Main {
-    margin: 2em;
+
+.text-input {
+    width: 50em;
 }
 
-.text-input{
+.title-input {
     width: 50em;
+}
+
+.title-container {
+    margin-bottom: 0.5em;
 }
