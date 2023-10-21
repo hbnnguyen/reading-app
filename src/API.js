@@ -23,8 +23,13 @@ class ReadingApi {
 
   static getUser = async (userID) => {
     let id = userID;
-    let res = await this.request(`users/${id}`)
-    return res;
+    try {
+      let res = await this.request(`users/${id}`)
+      return res;
+    } catch (error){
+      console.log(error)
+    }
+
   }
 
   static editUser = async (user, data) => {
@@ -32,18 +37,24 @@ class ReadingApi {
 
     updatedUser.name = data.name
     updatedUser.age = data.age
+    try {
+      let res = await this.request(`users/${user.id}`, updatedUser, "put");
+      return res;
+    } catch (error) {
+      console.log(error)
+    }
 
-    let res = await this.request(`users/${user.id}`, updatedUser, "put");
-
-    return res;
   }
 
   static saveUserText = async (user, data) => {
     let updatedUser = {...user}
     updatedUser.texts[data.title] = data.text
-
-    let res = await this.request(`users/${user.id}`, updatedUser, "put")
-    return res
+    try {
+      let res = await this.request(`users/${user.id}`, updatedUser, "put")
+      return res
+    } catch (error){
+      console.log(error)
+    }
   }
 
   static saveUserBookPage = async (user, data) => {
@@ -53,28 +64,43 @@ class ReadingApi {
     } else {
       updatedUser.books[data.bookID] = data.pageNumber
     }
+    try {
+      let res = await this.request(`users/${user.id}`, updatedUser, "put")
+      return res
+    } catch(error) {
+      console.log(error)
+    }
 
-    let res = await this.request(`users/${user.id}`, updatedUser, "put")
-    return res
   }
 
   static getBooks = async () => {
-    let res = await this.request(`books`)
-    return res
+    try {
+      let res = await this.request(`books`)
+      return res
+    } catch(error) {
+      console.log(error)
+    }
   }
 
 
   static getBook = async (bookID) => {
-    let res = await this.request(`books/${bookID}`)
-    return res
+    try {
+      let res = await this.request(`books/${bookID}`)
+      return res
+    } catch(error) {
+    console.log(error)
+    }
   }
 
   static getBookPage = async (data) => {
     let bookID = data.bookID
     let pageNumber = data.pageNumber
-
-    let res = await this.request(`books/${bookID}/text/${pageNumber}`)
-    return res
+    try {
+      let res = await this.request(`books/${bookID}/text/${pageNumber}`)
+      return res
+    } catch(error) {
+      console.log(error)
+    }
   }
 
   static dictRequest = async (endpoint, data = {}, method = "get") => {
@@ -93,8 +119,12 @@ class ReadingApi {
   }
 
   static getDefinition = async (word) => {
-    let res = await this.dictRequest(word)
-    return res
+    try {
+      let res = await this.dictRequest(word)
+      return res
+    } catch(error) {
+      console.log(error)
+    }
   }
 
 }
