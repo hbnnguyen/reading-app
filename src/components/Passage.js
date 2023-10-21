@@ -2,12 +2,13 @@ import "./Passage.css";
 // import HighlightedText from "./HighlightedText";
 import Selectable from "./Selectable";
 import Definition from "./Definition";
-import Quiz from "./Quiz";
-import ReadingApi from "../API";
+// import Quiz from "./Quiz";
+// import ReadingApi from "../API";
 import { useCallback, useEffect, useState } from "react";
-import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt'
+import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt';
 import { useContext } from "react";
 import userContext from "../userContext";
+import { LOADING_IMG_URL } from '../App';
 
 const splitText = (text) => {
   const words = [];
@@ -26,7 +27,7 @@ const splitText = (text) => {
   return words;
 };
 
-const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }) => {
+const Passage = ({ pageNumber, text, isStopped, setIsStopped, setTextStartPoint, utterance }) => {
   const { user } = useContext(userContext);
 
   const [currIndex, setCurrIndex] = useState(null);
@@ -34,7 +35,7 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
   const [wordToDefine, setWordToDefine] = useState(null);
   const [wordDefinition, setWordDefinition] = useState(null);
   const [showDefinition, setShowDefinition] = useState(false);
-
+  const [open, setOpen] = useState(false);
 
   const reset = useCallback(() => {
     setCurrIndex(null);
@@ -47,36 +48,36 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
   }, [isStopped, reset]);
 
   useEffect(() => {
-    // This effect will run whenever wordToDefine changes
+
     const getWordDefinition = async (word) => {
       try {
-
-//         const newDefinition = await ReadingApi.getDefinition(wordToDefine);
-//         setWordDefinition(newDefinition)
 
         const api = new ChatGPTUnofficialProxyAPI({
           accessToken: process.env.REACT_APP_GPT_ACCESS_TOKEN,
           apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
-        })
-        console.log(word)
-        const prompt = 'Give me a definition of the word ' + word + ' that an 8 year old would understand'
-        // const prompt = 'Give me a definition of the word ' + word + ' that an '+ user.age +' year old would understand'
+        });
 
-        const newDefinition= await api.sendMessage(prompt)
-        console.log(newDefinition)
-        setWordDefinition(newDefinition['text'])
+        let age = 12;
+        if (user.age) {
+          age = user.age;
+        }
+        // const prompt = 'Give me a definition of the word ' + word + ' that an 8 year old would understand'
+        const prompt = 'Give me a definition of the word ' + word + ' that an ' + age + ' year old would understand';
 
-        setShowDefinition(true)
+        const newDefinition = await api.sendMessage(prompt);
+        console.log(newDefinition);
+        setWordDefinition(newDefinition['text']);
+
+        setShowDefinition(true);
       } catch (error) {
         console.error("Error fetching definition:", error);
       }
     };
 
     if (wordToDefine) {
-      getWordDefinition(wordToDefine)
+      getWordDefinition(wordToDefine);
     }
 
-    // console.log(wordToDefine);
   }, [wordToDefine]);
 
   const handleSelectableClick = (e) => {
@@ -85,13 +86,15 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
       // when right click on a selectable, make a call to dictionary api to get the definition
       let word = e.target.outerText;
       word = word.replace(/[^a-zA-Z ]/g, "");
-      setWordToDefine(word)
+      setWordToDefine(word);
+      setOpen(!open);
     }
   };
 
-  // const getWord = (word) => {
-
-  // }
+  const handleClose = () => {
+    setOpen(false);
+    setWordDefinition(null);
+  };
 
   const getStartIndex = (startIndex) => {
     setStartIndex(startIndex);
@@ -131,14 +134,14 @@ const Passage = ({ text, isStopped, setIsStopped, setTextStartPoint, utterance }
 
   return (
     <div id="Passage">
-      <h2>Passage</h2>
+      <h4>Left click on a word to start the text to speech at that position. Right click to get the definition.</h4>
       <div id="paragraph">
         {
           buildParagraph()
         }
       </div>
       <div id="Word-Definition">
-        {showDefinition && <Definition word={wordToDefine} wordDefinitions={wordDefinition} />}
+        {showDefinition && <Definition open={open} handleClose={handleClose} word={wordToDefine} wordDefinition={wordDefinition ? wordDefinition : <img alt='page loading gif' src={LOADING_IMG_URL}></img>} />}
       </div>
     </div>
   );

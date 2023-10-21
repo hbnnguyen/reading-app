@@ -4,8 +4,9 @@ import userContext from "../userContext";
 import ReadingApi from '../API';
 import Book from "../components/Book";
 import { Navigate } from "react-router-dom";
-import './Library.css'
-import {Button, List, ListItem, ListItemText, Divider} from '@mui/material';
+import './Library.css';
+import { Button, List, ListItem, ListItemText, Divider } from '@mui/material';
+import { LOADING_IMG_URL } from '../App';
 
 
 const Library = () => {
@@ -28,7 +29,7 @@ const Library = () => {
     if (books.data) {
       books.data.forEach(book => {
         listOfBooks.push(
-            <Book key={book.id} bookInfo={book} />
+          <Book key={book.id} bookInfo={book} />
         );
       });
     }
@@ -41,15 +42,23 @@ const Library = () => {
   //   </div>
 
 
-  if (books.isLoading) return <i>Loading...</i>;
+  // if (books.isLoading) return <i>Loading...</i>;
+  if (books.isLoading) return (
+    <img alt="book flipping" src={LOADING_IMG_URL} ></img>
+  );
+
 
   if (!user) {
     return <Navigate to="/" />;
   }
 
   return (
-    <div id="Library">
-      {books && listBooks()}
+    <div>
+      <br></br>
+      <h4>Select a book to read!</h4>
+      <div id="Library">
+        {books && listBooks()}
+      </div>
     </div>
   );
 
