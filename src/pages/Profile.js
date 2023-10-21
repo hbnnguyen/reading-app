@@ -17,7 +17,11 @@ const Profile = () => {
 
   const onSubmit = async (data) => {
     // data = JSON.stringify(data);
-    await ReadingApi.editUser(user, data)
+    try {
+      await ReadingApi.editUser(user, data)
+    } catch(error) {
+      console.log(error)
+    }
   };
 
   return (
