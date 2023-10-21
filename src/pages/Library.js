@@ -18,8 +18,12 @@ const Library = () => {
 
   useEffect(function fetchAndSetBooks() {
     const fetchBooks = async () => {
-      const newBooks = await ReadingApi.getBooks();
-      setBooks(({ data: newBooks.books.results, isLoading: false }));
+      try {
+        const newBooks = await ReadingApi.getBooks();
+        setBooks(({ data: newBooks.books.results, isLoading: false }));
+      } catch (error) {
+        console.log(error)
+      }
     };
     fetchBooks();
   }, []);

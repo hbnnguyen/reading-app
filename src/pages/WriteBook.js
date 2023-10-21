@@ -20,8 +20,12 @@ const WriteBook = () => {
   const { user } = useContext(userContext);
 
   const onSubmit = async (data) => {
-    await ReadingApi.saveUserText(user, data);
-    navigate("/");
+    try {
+      await ReadingApi.saveUserText(user, data)
+      navigate("/");
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
