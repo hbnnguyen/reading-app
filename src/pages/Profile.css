@@ -1,0 +1,34 @@
+#Main {
+    margin: 2em;
+}
+
+.profile-container{
+    display: flex;
+    justify-content: center;
+}
+
+.user-profile {
+    text-align: left;
+    width: 15em;
+    min-width: 15em;
+}
+
+.profile-head {
+    text-align: center;
+}
+
+.name-input {
+    width: 15em;
+}
+
+.age-input {
+    width: 15em;
+}
+
+.name-container {
+    margin-bottom: 0.5em;
+}
+
+.space {
+    margin-bottom: 0.5em;
+}

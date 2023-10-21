@@ -13,89 +13,97 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
+import { Passage } from '@passageidentity/passage-js';
+// import { useAuthStatus } from './hooks/useAuthStatus';
 
-const NavBar = () => {
-   const [pageMenu, setPage] = React.useState(null);
-   const [anchorEl, setAnchorEl] = React.useState(null);
 
-   const handleMenu = (stateFunc, currentState) => {
+const NavBar = ({ signedIn, handleLogout }) => {
+  const [pageMenu, setPage] = React.useState(null);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const passage = new Passage(process.env.REACT_APP_PASSAGE_APP_ID);
+  const session = passage.getCurrentSession();
+  const authToken = async () => { return await session.getAuthToken(); };
+
+  const handleMenu = (stateFunc, currentState) => {
     stateFunc(!currentState);
-   };
+  };
 
-   const handleClose = (stateFunc) => {
+  const handleClose = (stateFunc) => {
     stateFunc(null);
-   };
-   return (
-     <Box sx={{ flexGrow: 1 }}>
-       <AppBar position="static">
-         <Toolbar>
-           <IconButton
-             size="large"
-             edge="start"
-             color="inherit"
-             aria-label="menu"
-             sx={{ mr: 2 }}
-             onClick={() => handleMenu(setPage, pageMenu)}
-           >
-             <MenuIcon/>
-             <Menu
-                 id="menu-appbar"
-                 anchorEl={pageMenu}
-                 anchorOrigin={{
-                   vertical: 'top',
-                   horizontal: 'left',
-                 }}
-                 keepMounted
-                 transformOrigin={{
-                   vertical: 'top',
-                   horizontal: 'left',
-                 }}
-                 open={Boolean(pageMenu)}
-                 onClose={() => handleClose(setPage)}
-               >
-                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/">Home</Link> </MenuItem>
-                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/read">Read</Link> </MenuItem>
-                 <MenuItem onClick={() => handleClose(setPage)}> <Link to="/library">Library</Link> </MenuItem>
-               </Menu>
-           </IconButton>
-           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-             Reading App
-           </Typography>
-             <div>
-               <IconButton
-                 size="large"
-                 aria-label="account of current user"
-                 aria-controls="menu-appbar"
-                 aria-haspopup="true"
-                 onClick={() => handleMenu(setAnchorEl)}
-                 color="inherit"
-               >
-                 <AccountCircle />
-               </IconButton>
-               <Menu
-                 id="menu-appbar"
-                 anchorEl={anchorEl}
-                 anchorOrigin={{
-                   vertical: 'top',
-                   horizontal: 'right',
-                 }}
-                 keepMounted
-                 transformOrigin={{
-                   vertical: 'top',
-                   horizontal: 'right',
-                 }}
-                 open={Boolean(anchorEl)}
-                 onClose={() => handleClose(setAnchorEl, anchorEl)}
-               >
-                 <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/profile">Profile</Link></MenuItem>
-                 <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/write">Add a book</Link></MenuItem>
-                 <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/Login">Login</Link></MenuItem>
-               </Menu>
-             </div>
-         </Toolbar>
-       </AppBar>
-     </Box>
-   );
+  };
+
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static">
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => handleMenu(setPage, pageMenu)}
+          >
+            <MenuIcon />
+            <Menu
+              id="menu-appbar"
+              anchorEl={pageMenu}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(pageMenu)}
+              onClose={() => handleClose(setPage)}
+            >
+              <MenuItem onClick={() => handleClose(setPage)}> <Link to="/">Home</Link> </MenuItem>
+              {/* <MenuItem onClick={() => handleClose(setPage)}> <Link to="/read">Read</Link> </MenuItem> */}
+              <MenuItem onClick={() => handleClose(setPage)}> <Link to="/library">Library</Link> </MenuItem>
+            </Menu>
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            PagePal
+          </Typography>
+          <div>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={() => handleMenu(setAnchorEl)}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={() => handleClose(setAnchorEl, anchorEl)}
+            >
+              <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/profile">Profile</Link></MenuItem>
+              <MenuItem onClick={() => handleClose(setAnchorEl)}><Link to="/write">Add a book</Link></MenuItem>
+              {signedIn && <MenuItem onClick={() => handleLogout()}><Link to="/">Sign Out</Link></MenuItem>}
+            </Menu>
+          </div>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
 
 };
 

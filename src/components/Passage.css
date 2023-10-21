@@ -5,3 +5,15 @@
 .highlighted {
     background-color: yellow;
 }
+
+#Passage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#paragraph {
+    width: 70%;
+    margin: 1em;
+}

@@ -1,11 +1,11 @@
 import '@passageidentity/passage-elements/passage-auth';
 import { APP_ID, API_URL } from '../App';
-// import axios from 'axios';
-
+import './Login.css'
 
 const Login = () => {
+
   return (
-    <div className="form-container">
+    <div className='login'>
       <passage-auth app-id={APP_ID}></passage-auth>
     </div>
   );

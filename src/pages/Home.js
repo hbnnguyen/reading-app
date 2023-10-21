@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 
 import { Box, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import './Home.css';
+import { LOADING_IMG_URL } from '../App';
 
-const Home = ({ isLoading, isAuthorized }) => {
+const Home = ({ isLoading, signedIn }) => {
   const { user } = useContext(userContext);
   const [userBooks, setUserBooks] = useState(null);
   const [userTexts, setUserTexts] = useState(null);
@@ -74,7 +75,7 @@ const Home = ({ isLoading, isAuthorized }) => {
 
   const textsTable =
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500 }} size="small" aria-label="a dense table">
+      <Table sx={{ maxWidth: 500 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell><b>Your Texts</b></TableCell>
@@ -87,7 +88,12 @@ const Home = ({ isLoading, isAuthorized }) => {
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {title}
+                <Link to={`/texts/read/${title}`} style={{
+                  textDecoration: "none",
+                  color: "black"
+                }}>
+                  {title}
+                </Link>
               </TableCell>
             </TableRow>
           ))}
@@ -96,19 +102,12 @@ const Home = ({ isLoading, isAuthorized }) => {
     </TableContainer>;
 
   if (isLoading) {
-    return <i>Loading...</i>;
+    return (
+      <img alt='page loading gif' src={LOADING_IMG_URL}></img>);
   }
 
   const authorizedBody =
     <>
-      <p>Hi {user && user.name}!</p>
-
-      {/* Your age is: {user && user.age} */}
-
-      {/* Your email is: <b>{user && user.email}</b> */}
-
-      {/* Your id is: <b>{user && user.id}</b> */}
-
       {textsTable}
       <br /><br />
       {booksTable}
@@ -135,20 +134,20 @@ const Home = ({ isLoading, isAuthorized }) => {
 
   return (
     <Container className='home-container' maxWidth="sm">
-    <Box className='home-main'>
-      <div>
-        <h1>
-          {isAuthorized ? 'Welcome!' : 'Unauthorized'}
-        </h1>
+      <Box className='home-main'>
+        <div>
+          <h1>
+            {signedIn ? 'Welcome!' : 'Please log in'}
+          </h1>
 
-      </div>
-      <br></br>
-      <div>
-        {isAuthorized ? authorizedBody : unauthorizedBody}
-      </div>
-      {/* <Button onClick={handleBookClick}>add book at page 0</Button> */}
-    </Box>
-</Container>
+        </div>
+        <br></br>
+        <div>
+          {signedIn ? authorizedBody : unauthorizedBody}
+        </div>
+        {/* <Button onClick={handleBookClick}>add book at page 0</Button> */}
+      </Box>
+    </Container>
   );
 
 
