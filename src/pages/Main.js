@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 import TextToSpeech from "../components/TextToSpeech";
 
-
 const Main = () => {
   const [voice, setVoice] = useState(null);
   const [pitch, setPitch] = useState(1);
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
-  const [synth, setSynth] = useState(null)
+  const [synth, setSynth] = useState(null);
 
   const text = "It is a truth universally acknowledged, that a single man in " +
     "possession of a good fortune, must be in want of a wife.";
@@ -15,14 +14,14 @@ const Main = () => {
   useEffect(() => {
     setSynth(window.speechSynthesis);
     if (synth) {
-      const voices = synth.getVoices()
-      setVoice(voices[0])
+      const voices = synth.getVoices();
+      setVoice(voices[0]);
 
       return () => {
         synth.cancel();
       };
     }
-  },[text, synth])
+  }, [text, synth]);
 
   const handleVoiceChange = (event) => {
     let voices;
@@ -46,7 +45,7 @@ const Main = () => {
 
   return (
     <div id="Main">
-       <label>
+      <label>
         Voice:
         <select value={voice?.name} onChange={handleVoiceChange}>
           {window.speechSynthesis.getVoices().map((voice) => (
@@ -56,9 +55,7 @@ const Main = () => {
           ))}
         </select>
       </label>
-
       <br />
-
       <label>
         Pitch:
         <input
@@ -70,9 +67,7 @@ const Main = () => {
           onChange={handlePitchChange}
         />
       </label>
-
       <br />
-
       <label>
         Speed:
         <input
@@ -96,12 +91,10 @@ const Main = () => {
           onChange={handleVolumeChange}
         />
       </label>
-
       <br />
       <TextToSpeech text={text} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-
     </div>
-  )
-}
+  );
+};
 
 export default Main;

@@ -1,9 +1,7 @@
-import { useState } from "react";
-
-const Selectable = ({wordData, onContextMenu, getStartIndex, isHighlighted }) => {
+const Selectable = ({ wordData, onContextMenu, getStartIndex, isHighlighted }) => {
     const handleClick = () => {
-        getStartIndex(wordData.startIndex)
-    }
+        getStartIndex(wordData.startIndex);
+    };
 
     return (
         <span

@@ -5,7 +5,6 @@ import userContext from "../userContext";
 import ReadingApi from "../API";
 import Quiz from "../components/Quiz";
 
-
 const ReadText = () => {
   const { user } = useContext(userContext);
   const { title } = useParams();
@@ -61,9 +60,7 @@ const ReadText = () => {
           ))}
         </select>
       </label>
-
       <br />
-
       <label>
         Pitch:
         <input
@@ -75,9 +72,7 @@ const ReadText = () => {
           onChange={handlePitchChange}
         />
       </label>
-
       <br />
-
       <label>
         Speed:
         <input
@@ -101,10 +96,8 @@ const ReadText = () => {
           onChange={handleVolumeChange}
         />
       </label>
-
       <br />
       <TextToSpeech text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-
       <div id="quiz"> {
         !text.isLoading && <Quiz text={text.data} />
       }

@@ -2,7 +2,7 @@
     margin: 2em;
 }
 
-.profile-container{
+.profile-container {
     display: flex;
     justify-content: center;
 }
@@ -18,7 +18,6 @@
 }
 
 .name-input {
-    width: 15em;
 }
 
 .age-input {
@@ -30,5 +29,5 @@
 }
 
 .space {
-    margin-bottom: 0.5em;
+    margin-bottom: 1.5em;
 }

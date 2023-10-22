@@ -1,0 +1,15 @@
+.navbar {
+    background-color: #4B89FF;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: white;
+    font-family: 'Nunito', sans-serif;
+}
+
+.nav-menu-link {
+    text-decoration: none;
+    color: black;
+    font-family: 'Nunito', sans-serif;
+}

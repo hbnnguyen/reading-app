@@ -21,7 +21,7 @@ const GPTTest = () => {
 
   async function example(query) {
     const api = new ChatGPTUnofficialProxyAPI({
-      accessToken: process.env.REACT_APP_PASSAGE_APP_ID,
+      accessToken: process.env.REACT_APP_GPT_ACCESS_TOKEN,
       apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
     });
     console.log(query);

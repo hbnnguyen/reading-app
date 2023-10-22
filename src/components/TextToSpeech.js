@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import Passage from "./Passage";
 import Button from '@mui/material/Button';
 
-//FIXME: fix the highlighting for google voice selections
-
 const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
   text = text.replace("_", "");
 

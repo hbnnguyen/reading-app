@@ -5,7 +5,7 @@ import userContext from "../userContext";
 import ReadingApi from "../API";
 import Button from '@mui/material/Button';
 import Quiz from "../components/Quiz";
-import {LOADING_IMG_URL} from '../App'
+import { LOADING_IMG_URL } from '../App';
 
 const ReadBook = () => {
   const { user } = useContext(userContext);
@@ -68,10 +68,10 @@ const ReadBook = () => {
   const handlePrevPage = async () => {
     const newPage = pageNumber - 1;
 
-    setPageNumber(newPage)
-    let data = {bookID: bookID, pageNumber: newPage}
-    await ReadingApi.saveUserBookPage(user, data)
-    setCatsKey(key => key + 1)
+    setPageNumber(newPage);
+    let data = { bookID: bookID, pageNumber: newPage };
+    await ReadingApi.saveUserBookPage(user, data);
+    setCatsKey(key => key + 1);
   };
 
 
@@ -79,13 +79,13 @@ const ReadBook = () => {
     const newPage = pageNumber + 1;
     setPageNumber(newPage);
 
-    let data = {bookID: bookID, pageNumber: newPage}
-    await ReadingApi.saveUserBookPage(user, data)
-    setCatsKey(key => key + 1)
+    let data = { bookID: bookID, pageNumber: newPage };
+    await ReadingApi.saveUserBookPage(user, data);
+    setCatsKey(key => key + 1);
   };
 
   if (text.isLoading) {
-    return <img alt="book flipping" src={LOADING_IMG_URL} ></img>
+    return <img alt="book flipping" src={LOADING_IMG_URL} ></img>;
   }
 
   return (
@@ -100,9 +100,7 @@ const ReadBook = () => {
           ))}
         </select>
       </label>
-
       <br />
-
       <label>
         Pitch:
         <input
@@ -114,9 +112,7 @@ const ReadBook = () => {
           onChange={handlePitchChange}
         />
       </label>
-
       <br />
-
       <label>
         Speed:
         <input
@@ -140,15 +136,12 @@ const ReadBook = () => {
           onChange={handleVolumeChange}
         />
       </label>
-
       <br />
       <TextToSpeech pageNumber={pageNumber && pageNumber} text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-      <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</Button>
+      <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage : undefined}>previous page</Button>
       <Button variant="outlined" onClick={handleNextPage}>next page</Button>
-      {/* <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage: undefined}>previous page</Button>
-      <Button variant="outlined" onClick={handleNextPage}>next page</Button> */}
       <div id="quiz">
-        <Quiz key={catsKey} text={text.data ? text.data : " "}/>
+        <Quiz key={catsKey} text={text.data ? text.data : " "} />
       </div>
     </div>
   );

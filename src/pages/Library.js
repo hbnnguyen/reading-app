@@ -5,9 +5,7 @@ import ReadingApi from '../API';
 import Book from "../components/Book";
 import { Navigate } from "react-router-dom";
 import './Library.css';
-import { Button, List, ListItem, ListItemText, Divider } from '@mui/material';
 import { LOADING_IMG_URL } from '../App';
-
 
 const Library = () => {
   const { user } = useContext(userContext);
@@ -22,7 +20,7 @@ const Library = () => {
         const newBooks = await ReadingApi.getBooks();
         setBooks(({ data: newBooks.books.results, isLoading: false }));
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     };
     fetchBooks();
@@ -40,17 +38,9 @@ const Library = () => {
     return listOfBooks;
   };
 
-  // const listOfBooks =
-  //   <div>
-  //     {books && listBooks()}
-  //   </div>
-
-
-  // if (books.isLoading) return <i>Loading...</i>;
   if (books.isLoading) return (
     <img alt="book flipping" src={LOADING_IMG_URL} ></img>
   );
-
 
   if (!user) {
     return <Navigate to="/" />;
@@ -65,7 +55,6 @@ const Library = () => {
       </div>
     </div>
   );
-
 };
 
 export default Library;

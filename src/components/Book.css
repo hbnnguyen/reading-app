@@ -1,7 +1,7 @@
 .book-card {
     display: flex;
     flex-direction: column;
-    background-color: rgb(151, 187, 255);
+    background-color: #fff8e7;
     min-height: 30em;
     min-width: 20em;
     max-height: 30em;

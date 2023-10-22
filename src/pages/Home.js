@@ -1,4 +1,3 @@
-import { useAuthStatus } from '../hooks/useAuthStatus';
 import { useContext, useState, useEffect } from "react";
 import userContext from "../userContext";
 import ReadingApi from '../API';
@@ -13,8 +12,6 @@ const Home = ({ isLoading, signedIn }) => {
   const [userBooks, setUserBooks] = useState(null);
   const [userTexts, setUserTexts] = useState(null);
 
-
-  // const {isLoading, isAuthorized, email, id} = useAuthStatus();
   useEffect(function fetchAndSetUserBooks() {
     const fetchUserBooks = async () => {
       if (user) {
@@ -45,7 +42,7 @@ const Home = ({ isLoading, signedIn }) => {
 
   const booksTable =
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 500 }} size="small" aria-label="a dense table">
+      <Table sx={{ width: 400 }} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
             <TableCell><b>Your Books</b></TableCell>
@@ -120,18 +117,6 @@ const Home = ({ isLoading, signedIn }) => {
       <a href="/login" >Login to continue.</a>
     </>;
 
-  // const handleBookClick = async () => {
-  //   let data = {bookID: 1342, bookPage: 0}
-  //   await ReadingApi.saveUserBookPage(user, data)
-  // }
-
-  // const handleBookClick = async () => {
-  //   let data = {bookID: 1342, pageNumber: 50}
-  //   let text = await ReadingApi.getBookPage(data)
-  //   console.log(text)
-  // }
-
-
   return (
     <Container className='home-container' maxWidth="sm">
       <Box className='home-main'>
@@ -145,12 +130,9 @@ const Home = ({ isLoading, signedIn }) => {
         <div>
           {signedIn ? authorizedBody : unauthorizedBody}
         </div>
-        {/* <Button onClick={handleBookClick}>add book at page 0</Button> */}
       </Box>
     </Container>
   );
-
-
 };
 
 export default Home;
