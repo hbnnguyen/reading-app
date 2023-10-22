@@ -35,7 +35,6 @@ class ReadingApi {
 
   static editUser = async (user, data) => {
     let updatedUser = { ...user };
-
     updatedUser.name = data.name;
     updatedUser.age = data.age;
     try {
