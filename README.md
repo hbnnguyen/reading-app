@@ -1,5 +1,6 @@
 # PagePal
 https://pagepal.hannahnguyen.me/ 
+
 PagePal is a versatile app designed to improve reading comprehension with AI-driven features, including text-to-speech for auditory learning, word definition generation, and AI pop quizzes. You can also import your own texts for a personalized learning experience.
 
 ## To run PagePal locally:
