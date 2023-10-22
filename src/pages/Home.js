@@ -2,10 +2,12 @@ import { useContext, useState, useEffect } from "react";
 import userContext from "../userContext";
 import ReadingApi from '../API';
 import { Link } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 import { Box, Container, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import './Home.css';
-import { LOADING_IMG_URL } from '../App';
+import { LOADING_IMG_URL, APP_ID, API_URL } from '../App';
+import '@passageidentity/passage-elements/passage-auth';
+// import { APP_ID, API_URL } from '../App';
 
 const Home = ({ isLoading, signedIn }) => {
   const { user } = useContext(userContext);
@@ -103,15 +105,38 @@ const Home = ({ isLoading, signedIn }) => {
       <img alt='page loading gif' src={LOADING_IMG_URL}></img>);
   }
 
+  const greeting = () => {
+    if (signedIn) {
+      if (user) {
+        if (user.name) {
+          return (
+            `Welcome, ${user.name}!`
+          );
+        } else {
+          return (
+            `Welcome, pal!`
+          );
+        }
+      }
+    }
+  };
+
+  if (signedIn === false) {
+    return <Navigate to="/login" />;
+  }
+
   const authorizedBody =
     <>
-      {textsTable}
-      <br /><br />
       {booksTable}
+      <br /><br />
+      {textsTable}
     </>;
 
   const unauthorizedBody =
     <>
+
+        {/* <passage-auth app-id={APP_ID}></passage-auth> */}
+
       You have not logged in and cannot view the dashboard.
       <br /><br />
       <a href="/login" >Login to continue.</a>
@@ -122,9 +147,8 @@ const Home = ({ isLoading, signedIn }) => {
       <Box className='home-main'>
         <div>
           <h1>
-            {signedIn ? 'Welcome!' : 'Please log in'}
+            {greeting()}
           </h1>
-
         </div>
         <br></br>
         <div>

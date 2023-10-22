@@ -1,8 +1,10 @@
 import axios from "axios";
+import OpenAI from 'openai';
 
 // const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 const DICT_URL = process.env.REACT_APP_DICT_URL;
 const API_URL = process.env.REACT_APP_API_URL;
+
 
 class ReadingApi {
   static async request(endpoint, data = {}, method = "get", inputHeaders) {
@@ -119,6 +121,29 @@ class ReadingApi {
   static getDefinition = async (word) => {
     try {
       let res = await this.dictRequest(word);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  static promptGPT = async (prompt) => {
+    try {
+      const openai = new OpenAI({
+        apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+        dangerouslyAllowBrowser: true  // defaults to process.env["OPENAI_API_KEY"]
+      });
+
+      const chatCompletion = await openai.chat.completions.create({
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.9,
+        model: 'gpt-3.5-turbo',
+      });
+      // // console.log(prompt);
+      // console.log(chatCompletion.choices);
+      // console.log(chatCompletion.choices[0].message.content);
+
+      const res = chatCompletion.choices[0].message.content;
       return res;
     } catch (error) {
       console.log(error);

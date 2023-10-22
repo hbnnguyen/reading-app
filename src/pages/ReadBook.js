@@ -19,7 +19,6 @@ const ReadBook = () => {
   const [text, setText] = useState(({ data: null, isLoading: true }));
   const [catsKey, setCatsKey] = useState(0);
 
-
   useEffect(function fetchAndSetText() {
     const fetchText = async () => {
       let data = { bookID: bookID, pageNumber: 1 };

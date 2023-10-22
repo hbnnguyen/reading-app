@@ -9,6 +9,7 @@ import { ChatGPTAPI, ChatGPTUnofficialProxyAPI } from 'chatgpt';
 import { useContext } from "react";
 import userContext from "../userContext";
 import { LOADING_IMG_URL } from '../App';
+import ReadingApi from "../API";
 
 const splitText = (text) => {
   const words = [];
@@ -52,10 +53,10 @@ const Passage = ({ pageNumber, text, isStopped, setIsStopped, setTextStartPoint,
     const getWordDefinition = async (word) => {
       try {
 
-        const api = new ChatGPTUnofficialProxyAPI({
-          accessToken: process.env.REACT_APP_GPT_ACCESS_TOKEN,
-          apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
-        });
+        // const api = new ChatGPTUnofficialProxyAPI({
+        //   accessToken: process.env.REACT_APP_GPT_ACCESS_TOKEN,
+        //   apiReverseProxyUrl: "https://ai.fakeopen.com/api/conversation"
+        // });
 
         let age = 12;
         if (user.age) {
@@ -63,12 +64,10 @@ const Passage = ({ pageNumber, text, isStopped, setIsStopped, setTextStartPoint,
         }
         // const prompt = 'Give me a definition of the word ' + word + ' that an 8 year old would understand'
         const prompt = 'Give me a definition of the word ' + word + ' that an ' + age + ' year old would understand';
-
-        const newDefinition = await api.sendMessage(prompt);
-        console.log(newDefinition);
-        setWordDefinition(newDefinition['text']);
-
-        setShowDefinition(true);
+        const newDefinition = ReadingApi.promptGPT(prompt).then((res) => {
+          setWordDefinition(res);
+          setShowDefinition(true);
+        })
       } catch (error) {
         console.error("Error fetching definition:", error);
       }

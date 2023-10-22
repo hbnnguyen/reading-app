@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Box } from '@mui/material';
 
 const Definition = ({ open, handleClose, word, wordDefinition }) => {

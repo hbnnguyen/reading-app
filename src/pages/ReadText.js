@@ -14,6 +14,7 @@ const ReadText = () => {
   const [volume, setVolume] = useState(1);
   const [synth, setSynth] = useState(null);
   const [text, setText] = useState(({ data: user.texts[title], isLoading: true }));
+  const [catsKey, setCatsKey] = useState(0);
 
   useEffect(() => {
     setSynth(window.speechSynthesis);
@@ -98,9 +99,8 @@ const ReadText = () => {
       </label>
       <br />
       <TextToSpeech text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-      <div id="quiz"> {
-        !text.isLoading && <Quiz text={text.data} />
-      }
+      <div id="quiz">
+        <Quiz key={catsKey} text={text.data ? text.data : " "} />
       </div>
     </div>
   );
