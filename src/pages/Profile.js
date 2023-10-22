@@ -35,7 +35,7 @@ const Profile = ({ user, setUser }) => {
   const onSubmit = async (data) => {
     // data = JSON.stringify(data);
     try {
-      await ReadingApi.editUser(user, data);
+      await ReadingApi.editUser(user.data, data);
       let newUser = { ...user };
       newUser.data.name = data.name;
       newUser.data.age = data.age;
