@@ -40,7 +40,7 @@ function App() {
 
   useEffect(function fetchAndSetUser() {
     const fetchUser = async () => {
-      if (id !== "") {
+      if (id && id !== "") {
         try {
           const currUser = await ReadingApi.getUser(id);
           setUser({
