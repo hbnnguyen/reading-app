@@ -34,11 +34,16 @@ const Profile = ({ user, setUser }) => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    await ReadingApi.editUser(user.data, data);
-    let newUser = { ...user };
-    newUser.data.name = data.name;
-    newUser.data.age = data.age;
-    setUser(newUser);
+    // data = JSON.stringify(data);
+    try {
+      await ReadingApi.editUser(user, data)
+      let newUser = { ...user };
+      newUser.data.name = data.name;
+      newUser.data.age = data.age;
+      setUser(newUser);
+    } catch(error) {
+      console.log(error)
+    }
   };
 
   return (

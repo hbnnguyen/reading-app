@@ -47,12 +47,15 @@ function App() {
   useEffect(function fetchAndSetUser() {
     const fetchUser = async () => {
       if (id) {
-        const currUser = await ReadingApi.getUser(id);
-        setUser({
-          data: currUser,
-          isLoading: false
-        });
-
+        try{
+          const currUser = await ReadingApi.getUser(id);
+          setUser({
+            data: currUser,
+            isLoading: false
+          });
+        } catch (error) {
+          console.log(error)
+        }
       } else {
         setUser({
           data: null,
@@ -65,7 +68,6 @@ function App() {
 
   const handleLogout = async () => {
     session.signOut().then((res) => {
-      console.log(res)
       setSignedIn(false);
       setUser({
         data: null,
