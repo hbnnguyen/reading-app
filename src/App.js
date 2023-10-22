@@ -68,7 +68,6 @@ function App() {
 
   const handleLogout = async () => {
     session.signOut().then((res) => {
-      console.log(res)
       setSignedIn(false);
       setUser({
         data: null,
