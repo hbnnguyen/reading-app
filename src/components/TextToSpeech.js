@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Passage from "./Passage";
 import Button from '@mui/material/Button';
+import "./TextToSpeech.css";
 
 const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
   text = text.replace("_", "");
@@ -80,9 +81,11 @@ const TextToSpeech = ({ text, synth, voice, pitch, rate, volume }) => {
 
   return (
     <div id="TextToSpeech">
-      <Button variant="outlined" onClick={handlePlay}> {isPaused ? "Resume" : "Play"} </Button>
-      <Button variant="outlined" onClick={handlePause}>Pause</Button>
-      <Button variant="outlined" onClick={handleStop}>Stop</Button>
+      <div className="button-container">
+        <Button variant="outlined" onClick={handlePlay}> {isPaused ? "Resume" : "Play"} </Button>
+        <Button variant="outlined" onClick={handlePause}>Pause</Button>
+        <Button variant="outlined" onClick={handleStop}>Stop</Button>
+      </div>
 
       <Passage
         text={text}

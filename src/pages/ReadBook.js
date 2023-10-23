@@ -90,7 +90,7 @@ const ReadBook = () => {
   return (
     <div id="Main">
       <label>
-        Voice:
+        Voice: &nbsp;
         <select value={voice?.name} onChange={handleVoiceChange}>
           {window.speechSynthesis.getVoices().map((voice) => (
             <option key={voice.name} value={voice.name}>
@@ -101,7 +101,7 @@ const ReadBook = () => {
       </label>
       <br />
       <label>
-        Pitch:
+        Pitch: &nbsp;
         <input
           type="range"
           min="0.5"
@@ -113,7 +113,7 @@ const ReadBook = () => {
       </label>
       <br />
       <label>
-        Speed:
+        Speed: &nbsp;
         <input
           type="range"
           min="0.5"
@@ -125,7 +125,7 @@ const ReadBook = () => {
       </label>
       <br />
       <label>
-        Volume:
+        Volume: &nbsp;
         <input
           type="range"
           min="0"
@@ -137,8 +137,10 @@ const ReadBook = () => {
       </label>
       <br />
       <TextToSpeech pageNumber={pageNumber && pageNumber} text={text.data ? text.data : " "} synth={synth} voice={voice} setVoice={setVoice} pitch={pitch} rate={rate} volume={volume} />
-      <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage : undefined}>previous page</Button>
-      <Button variant="outlined" onClick={handleNextPage}>next page</Button>
+      <div className="button-container">
+        <Button variant="outlined" onClick={pageNumber > 0 ? handlePrevPage : undefined}>previous page</Button>
+        <Button variant="outlined" onClick={handleNextPage}>next page</Button>
+      </div>
       <div id="quiz">
         <Quiz key={catsKey} text={text.data ? text.data : " "} />
       </div>

@@ -52,7 +52,7 @@ const ReadText = () => {
   return (
     <div id="Main">
       <label>
-        Voice:
+        Voice:  &nbsp;
         <select value={voice?.name} onChange={handleVoiceChange}>
           {window.speechSynthesis.getVoices().map((voice) => (
             <option key={voice.name} value={voice.name}>
@@ -63,7 +63,7 @@ const ReadText = () => {
       </label>
       <br />
       <label>
-        Pitch:
+        Pitch: &nbsp;
         <input
           type="range"
           min="0.5"
@@ -75,7 +75,7 @@ const ReadText = () => {
       </label>
       <br />
       <label>
-        Speed:
+        Speed: &nbsp;
         <input
           type="range"
           min="0.5"
@@ -87,7 +87,7 @@ const ReadText = () => {
       </label>
       <br />
       <label>
-        Volume:
+        Volume: &nbsp;
         <input
           type="range"
           min="0"
