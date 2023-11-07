@@ -24,10 +24,27 @@ class ReadingApi {
   }
 
   static getUser = async (userID) => {
+    const authToken = localStorage.getItem("psg_auth_token");
+
     let id = userID;
     try {
-      let res = await this.request(`users/${id}`);
-      return res;
+
+      let res = await axios.get(
+        `${API_URL}/users/${id}`,
+        {
+          headers: {
+            authorization: `Bearer ${authToken}`,
+          }
+        }
+      )
+
+      // let res = await this.request(`users/${id}`, {}, "get", {
+      //   headers: {
+      //     authorization: `Bearer ${authToken}`,
+      //   }
+      // });
+
+      return res.data;
     } catch (error) {
       console.log(error);
     }
