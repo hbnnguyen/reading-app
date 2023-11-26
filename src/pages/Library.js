@@ -18,7 +18,8 @@ const Library = () => {
     const fetchBooks = async () => {
       try {
         const newBooks = await ReadingApi.getBooks();
-        setBooks(({ data: newBooks.books.results, isLoading: false }));
+        console.log(newBooks)
+        setBooks(({ data: newBooks.results, isLoading: false }));
       } catch (error) {
         console.log(error);
       }

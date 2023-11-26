@@ -20,7 +20,7 @@ const Home = ({ isLoading, signedIn }) => {
         let rows = [];
         for (const bookID in user.books) {
           const bookInfo = await ReadingApi.getBook(bookID);
-          const title = bookInfo.book.title;
+          const title = bookInfo.title;
           const pageNumber = user.books[bookID];
           rows.push({ bookID: bookID, title: title, pageNumber: pageNumber });
         }
@@ -146,6 +146,7 @@ const Home = ({ isLoading, signedIn }) => {
     <Container className='home-container' maxWidth="sm">
       <Box className='home-main'>
         <div>
+          {/* <button onClick={() => {ReadingApi.getBookTextFile(1324)}} > get book </button> */}
           <h1>
             {greeting()}
           </h1>
